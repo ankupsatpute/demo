@@ -1,0 +1,47 @@
+pipeline{
+    agent any
+    
+    environment{
+        PATH = "/opt/maven/apache-maven-3.8.6/bin:$PATH"
+    }
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git credentialsId: 'github', url: 'https://github.com/styagi935/simple-app.git'
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean package"
+           }
+        }
+        stage("Tomcat-Deploy"){
+            steps{
+            deploy adapters: [tomcat8(credentialsId: 'Tomcat_credentials', path: '', url: 'http://13.233.88.5:8090/')], contextPath: null, war: '**/*.war'
+            }
+        }
+        stage("Upload War To Nexus"){
+            steps{
+                script{
+                  def mavenPom = readMavenPom file: 'pom.xml'
+                  def nexusRepoName = mavenPom.version.endsWith("SNAPSHOT") ? "simpleapp-snapshot" : "simpleapp-release"
+                   nexusArtifactUploader artifacts: [
+                     [
+                        artifactId: 'maven-project', 
+                        classifier: '', 
+                        file: "target/simple-app-${mavenPom.version}.war", 
+                        type: 'war'
+                        ]
+                    ], 
+                        credentialsId: 'nexus3', 
+                        groupId: 'com.example.maven-project', 
+                        nexusUrl: '13.232.154.74:8081/', 
+                        nexusVersion: 'nexus3', 
+                        protocol: 'http', 
+                        repository: 'Myapp-Snapshot', 
+                        version: "${mavenPom.version}"
+                }
+           }
+        }
+     }
+}
