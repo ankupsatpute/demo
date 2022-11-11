@@ -1,13 +1,12 @@
-
 pipeline{
     agent any
-    tools{
-  maven 'Maven'
-    }
+        tools{
+             maven 'Maven'
+            }
     stages{
         stage('SCM Pull'){
             steps{
                 echo "Git Checkout Started"
-            }
-        }
+                  }
+          }
 }
