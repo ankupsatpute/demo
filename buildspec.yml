@@ -1,1 +1,22 @@
 
+pipeline{
+    agent any
+    tools{
+  maven 'Maven'
+    }
+    stages{
+        stage('SCM Pull'){
+            steps{
+                echo "Git Checkout Started"
+                git credentialsId: 'git-creds', 
+                    url: 'https://github.com/styagi935/demo.git'
+                echo "Git Checkout Completed"
+            }
+        }
+        stage('Maven Build'){
+            steps{
+                echo "Maven Build Started"
+                sh "mvn clean package"
+                echo "Maven Build is successful"
+            }
+        }
