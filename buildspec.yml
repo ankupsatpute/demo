@@ -8,8 +8,7 @@ pipeline{
         stage('SCM Pull'){
             steps{
                 echo "Git Checkout Started"
-                git credentialsId: 'git-creds', 
-                    url: 'https://github.com/styagi935/demo.git'
+                  git url: 'https://github.com/styagi935/demo.git'
                 echo "Git Checkout Completed"
             }
         }
