@@ -1,12 +1,11 @@
-pipeline{
-    agent any
-        tools{
-             maven 'Maven'
-            }
-    stages{
-        stage('SCM Pull'){
-            steps{
-                echo "Git Checkout Started"
-                  }
-          }
-}
+version: 0.1
+
+phases:
+  build:
+    commands:
+      - echo Build completed on `date`
+      - mvn package
+
+artifacts:
+  files:
+    - '**/*'
