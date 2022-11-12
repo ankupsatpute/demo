@@ -4,7 +4,9 @@ phases:
   build:
     commands:
       - echo Build completed on `date`
-      - mvn package
+      - mvn clean package
+      - mvn test
+      - mvn sonar:sonar
 
 artifacts:
   files:
