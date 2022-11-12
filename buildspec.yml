@@ -6,7 +6,7 @@ phases:
       - echo Build completed on `date`
       - mvn clean package
       - mvn test
-      - docker build . -t styagi935/simple-app:7.0.0
+      - docker build .
 artifacts:
   files:
     - '**/*'
