@@ -1,12 +1,21 @@
-version: 0.1
-
-phases:
+version: 0.2
+env:
+  shell: bash
+  secrets-manager:
+    DOCKERHUB_USERNAME: DockerHubSecret:dockerhub_username
+    DOCKERHUB_PASSWORD: DockerHubSecret:dockerhub_password
+    
+phases:    
+  pre_build:
+    commands:
+      - echo logging in docker hub
+      - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
   build:
     commands:
       - echo Build completed on `date`
       - mvn clean package
       - mvn test
       - docker build -t simpleapp:latest .
-artifacts:
-  files:
-    - '**/*'
+  artifacts:
+    files:
+      - '**/*'
