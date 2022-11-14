@@ -21,5 +21,4 @@ post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
-      - docker push styagi935/simple-app:latest
+      - docker push $DOCKERHUB_USERNAME/styagi935:simple-app
