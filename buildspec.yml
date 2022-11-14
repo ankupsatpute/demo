@@ -15,9 +15,7 @@ phases:
       - echo Build completed on `date`
       - mvn clean package
       - mvn test
-      - docker build -t simpleapp:latest .
-      
-  post_build:    
+      - docker build -t simpleapp:latest . 
     artifacts:
       files:
         - '**/*'
