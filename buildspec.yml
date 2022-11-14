@@ -16,3 +16,9 @@ phases:
       - mvn clean package
       - mvn test
       - docker build -t simpleapp:latest .
+      
+post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD/styagi935:simple-app:latest      
