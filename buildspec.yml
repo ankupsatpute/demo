@@ -16,7 +16,6 @@ phases:
       - mvn clean package
       - mvn test
       - docker build -t simpleapp:latest .
-      - docker push styagi935/simple-app:latest
       
 post_build:
     commands:
