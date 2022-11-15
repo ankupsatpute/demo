@@ -1,24 +1,17 @@
 version: 0.2
-env:
-  shell: bash
-  secrets-manager:
-    DOCKERHUB_USERNAME: DockerHubSecret:DOCKERHUB_USERNAME
-    DOCKERHUB_PASSWORD: DockerHubSecret:DOCKERHUB_PASSWORD
-    
-phases:    
-  pre_build:
-    commands:
-      - echo logging in docker hub
-      - docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD
+
   build:
     commands:
-      - echo Build completed on `date`
       - mvn clean package
-      - mvn test
-      - docker build -t simpleapp:latest .
-      
-post_build:
+  post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker image...
-      - docker push $DOCKERHUB_USERNAME/styagi935:simple-app
+      - echo Build completed
+artifacts:
+  files:
+    - target/*.war
+    - scripts/server_start.sh
+    - scripts/server_stop.sh
+    - TestXMLFile.xml
+    - appspec.yml
+   
+  discard-paths: yes
