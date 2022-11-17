@@ -4,7 +4,12 @@ os: linux
 files:
   - source: /simple-app-7.0.0.war
     destination: /home/ec2-user/tomcat/apache-tomcat-8.5.35/webapps/
- 
+  - source: /TestXMLFile.xml
+    destination: /home/ec2-user/tomcat/apache-tomcat-8.5.35/webapps/ 
+  - source: /scripts/stop_server.sh
+    destination: /home/ec2-user/tomcat/apache-tomcat-8.5.35/webapps/
+  - source: /scripts/start_server.sh
+    destination: /home/ec2-user/tomcat/apache-tomcat-8.5.35/webapps/
    
     
 file_exists_behavior: OVERWRITE    
