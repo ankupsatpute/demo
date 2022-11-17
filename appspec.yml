@@ -1,6 +1,14 @@
 version: 0.0
 os: linux
 
+artifacts:
+  files:
+    - target/*.war
+    - scripts/server_start.sh
+    - scripts/server_stop.sh
+    - TestXMLFile.xml
+    - appspec.yml
+    
 files:
   - source: /simple-app-7.0.0.war
     destination: /home/ec2-user/tomcat/apache-tomcat-8.5.35/webapps/
