@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo chmod +x /usr/share/apache-tomcat-9.0.63/bin/./startup.sh
-sudo /usr/share/apache-tomcat-9.0.63/bin/./startup.sh
+sudo chmod +x /home/ec2-user/tomcat/apache-tomcat-8.5.35/bin/./startup.sh
+sudo /home/ec2-user/tomcat/apache-tomcat-8.5.35/bin/./startup.sh
