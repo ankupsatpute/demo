@@ -10,8 +10,8 @@ phases:
 artifacts:
   files:
     - target/*.war
-    - server_start.sh
-    - server_stop.sh
+    - scripts/server_start.sh
+    - scripts/server_stop.sh
     - TestXMLFile.xml
     - appspec.yml
    
