@@ -1,6 +1,6 @@
 ---
  - name: Download the Lastet war file from nexus
-   hosts: localhost
+   hosts: master
    become: true
    gather_facts: yes
    roles:
