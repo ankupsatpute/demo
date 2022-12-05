@@ -1,0 +1,59 @@
+---
+ - name: Tomcat Setup
+   hosts: slave
+   become: true
+   gather_facts: yes
+   tasks:
+     - name: Install Java
+       ansible.builtin.yum:
+         name: java
+         state: installed
+     - name: Download the Tomcat Package
+       ansible.builtin.get_url:
+         url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.69/bin/apache-tomcat-9.0.69.tar.gz
+         dest: /opt
+         mode: '0755'
+     - name: Untar the tomcat File
+       ansible.builtin.unarchive:
+         src: /opt/apache-tomcat-9.0.69.tar.gz
+         dest: /opt/
+         remote_src: yes
+     - name: Chnage the Permision of the tomcat File
+       ansible.builtin.file:
+         path: /opt/apache-tomcat-9.0.69/
+         mode: '0755'
+         recurse: yes
+         state: directory
+     - name: Create the Link for the startup.sh
+       ansible.builtin.file:
+         src: /opt/apache-tomcat-9.0.69/bin/startup.sh
+         dest: /usr/local/bin/tomcatup
+         state: link
+     - name: Create the Link for Shutdown.sh
+       ansible.builtin.file:
+         src: /opt/apache-tomcat-9.0.69/bin/shutdown.sh
+         dest: /usr/local/bin/tomcatdown
+         state: link
+     - name: Ansible Template Context.xml
+       ansible.builtin.copy:
+         src: /opt/context.xml
+         dest: /opt/apache-tomcat-9.0.69/webapps/manager/META-INF
+         mode: '0644'
+         remote_src: yes
+     - name: Ansible Templete Tomcat-users.xml
+       ansible.builtin.copy:
+         src: /opt/tomcatuser.xml
+         dest: /opt/apache-tomcat-9.0.69/conf/tomcat-users.xml
+         mode: '0644'
+         remote_src: yes
+     - name: Ansible Copy WAR file to web apps
+       ansible.builtin.copy:
+         src: /opt/simple-app.war
+         dest: /opt/apache-tomcat-9.0.69/webapps/
+         remote_src: yes
+     - name: Delete the War file from OPT folder
+       command: ./delete_file.sh
+       args:
+         chdir: /opt/
+     - name: Restart the Tomcat Server
+       shell: /opt/apache-tomcat-9.0.69/bin/shutdown.sh && nohup /opt/apache-tomcat-9.0.69/bin/startup.sh
