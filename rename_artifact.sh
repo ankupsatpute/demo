@@ -6,7 +6,7 @@
 
 #cd artifact
 #if (( $? == 0)); then  rm -rf *.war; fi
-
+cd /etc/ansible/
 for f in [a-z]*.war; do
 base=${f%.*}	
 
