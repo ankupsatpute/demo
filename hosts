@@ -1,0 +1,2 @@
+[master]
+172.31.38.170 ansible_user=ec2-user
