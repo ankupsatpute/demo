@@ -1,6 +1,6 @@
 ---
 # vars file for nexus
-nexus_url: 13.235.242.167:8081
+nexus_url: 13.235.51.122:8081
   #nexus_repository: Sample-app
   #maven_grp: groupId
   #maven_artifactId: simple-app
