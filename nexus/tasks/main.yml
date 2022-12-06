@@ -6,7 +6,7 @@
      username: "{{ nexus_user }}"
      password: "{{ nexus_password }}"
      dest: /etc/ansible/
-#- name: Remove and Copying the file
- # command: ./rename_artifact.sh
-  #args:
-   # chdir: /etc/ansible/simple-app/
+- name: Remove and Copying the file
+  command: ./rename_artifact.sh
+  args:
+   chdir: /etc/ansible/
