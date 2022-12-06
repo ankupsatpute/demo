@@ -5,7 +5,7 @@
    become_user: root
    gather_facts: false
    vars:
-     user_name: ansh
+     user_name: 
    tasks:
      - name: Create New User
        ansible.builtin.user:
