@@ -2,7 +2,8 @@
  - name: User
    hosts: all
    become: true
-   gather_facts: no
+   become_user: root
+   gather_facts: false
    vars:
      user_name: ansh
    tasks:
