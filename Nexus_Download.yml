@@ -4,7 +4,7 @@
    become: true
    gather_facts: yes
    vars:
-    user_name:
+    user_name: satpute
    tasks:
      - name: To Create the User
        ansible.builtin.user:
