@@ -1,4 +1,2 @@
-[master]
-172.31.38.170 ansible_user=ec2-user
 [slave]
 172.31.1.21 ansible_user=ec2-user
