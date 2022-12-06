@@ -1,6 +1,6 @@
 ---
  - name: User
-   hosts: slave
+   hosts: all
    become: true
    gather_facts: no
    vars:
