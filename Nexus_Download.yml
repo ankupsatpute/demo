@@ -1,11 +1,11 @@
 ---
- - name: Nexus Download file
+ - name: User
    hosts: slave
    become: true
-   gather_facts: yes
+   gather_facts: no
    vars:
-    user_name: satpute
+     user_name: ansh
    tasks:
-     - name: To Create the User
+     - name: Create New User
        ansible.builtin.user:
           name: "{{ user_name }}"
