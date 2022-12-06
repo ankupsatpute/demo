@@ -6,3 +6,6 @@ nexus_url: 13.235.51.122:8081
   #maven_artifactId: simple-app
 nexus_user: admin
 nexus_password: admin
+repo_name: Sample-app
+grp_id: in.javahome
+art_id: simple-app
