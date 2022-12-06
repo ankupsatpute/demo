@@ -9,4 +9,4 @@
 - name: Remove and Copying the file
   command: ./rename_artifact.sh
   args:
-   chdir: /etc/ansible/
+    chdir: /etc/ansible/
