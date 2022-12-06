@@ -43,10 +43,9 @@
      mode: '0644'
      remote_src: yes
 - name: Ansible Copy WAR file to web apps
-  ansible.builtin.copy:
-    src: /opt/simpleapp.war
-    dest: /opt/{{ tomcat_pck }}/webapps/
-    remote_src: yes
+  command: ./copy_file.sh
+  args:
+    chdir: /opt/
 - name: Delete the War file from OPT folder
   command: ./delete_file.sh
   args:
