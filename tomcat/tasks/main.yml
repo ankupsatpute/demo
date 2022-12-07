@@ -35,8 +35,8 @@
     src: tomcatusers.xml
     dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
     remote_src: yes
-    owner: jenkins
-    group: jenkins
+    owner: root
+    group: root
     mode: '0640'
     backup: yes
 - name: Ansible Templete For Context.xml
@@ -44,8 +44,8 @@
     src: context.xml
     dest: /opt/apache-tomcat-9.0.70/webapps/manager/META-INF/
     remote_src: yes
-    owner: jenkins
-    group: jenkins
+    owner: root
+    group: root
     mode: '0640'
     backup: yes
 - name: Remove the Existing War file
