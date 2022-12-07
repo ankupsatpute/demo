@@ -32,7 +32,7 @@
      state: link
 - name: Ansible Templete for tomcat-users.xml
   ansible.builtin.template:
-    src: tomcatusers.xml
+    src: /tomcat/templates/tomcatusers.xml
     dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
     remote_src: yes
     owner: root
