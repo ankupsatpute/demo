@@ -1,0 +1,7 @@
+---
+ - name: Tomcat Setup
+   hosts: localhost
+   become: true
+   gather_facts: yes
+   roles:
+     - tomcat
