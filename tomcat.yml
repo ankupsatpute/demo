@@ -2,8 +2,7 @@
  - name: Tomcat Setup
    hosts: slave
    become: true
-   remote_user: ec2-user
+   remote_user: jenkins
    gather_facts: yes
-   become_method: sudo
    roles:
      - tomcat
