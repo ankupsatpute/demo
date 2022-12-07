@@ -45,7 +45,7 @@
 - name: Remove the Existing War file
   command: ./delete.sh
   args:
-    chdir: /opt/{{ tomcat_pck }}/
+    chdir: /opt/
 - name: download  Artifact from the nexus
   ansible.builtin.get_url:
     url: "http://{{ nexus_Ip }}/service/rest/v1/search/assets/download?sort=version&repository=Sample-app&maven.groupId={{ group_Id }}&maven.artifactId={{ artifact_Id }}&maven.extension=war"
