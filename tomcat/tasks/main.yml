@@ -1,0 +1,63 @@
+---
+# tasks file for tomcat
+- name: Install Java
+  ansible.builtin.yum:
+     name: java
+     state: installed
+- name: Download the Tomcat Package
+  ansible.builtin.get_url:
+      url: "https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.70/bin/apache-tomcat-9.0.70.tar.gz"
+      dest: /opt/
+      mode: '0755'
+- name: Untar the tomcat File
+  ansible.builtin.unarchive:
+     src: /opt/apache-tomcat-9.0.70.tar.gz
+     dest: /opt/
+     remote_src: yes
+- name: Chnage the Permision of the tomcat File
+  ansible.builtin.file:
+     path: /opt/apache-tomcat-9.0.70/
+     mode: '0755'
+     recurse: yes
+     state: directory
+- name: Create the Link for the startup.sh
+  ansible.builtin.file:
+    src: /opt/apache-tomcat-9.0.70/bin/startup.sh
+    dest: /usr/local/bin/tomcatup
+    state: link
+- name: Create the Link for Shutdown.sh
+  ansible.builtin.file:
+     src: /opt/apache-tomcat-9.0.70/bin/shutdown.sh
+     dest: /usr/local/bin/tomcatdown
+     state: link
+- name: Ansible Templete for tomcat-users.xml
+  ansible.builtin.template:
+    src: tomcatusers.xml
+    dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0640'
+    backup: yes
+- name: Ansible Templete For Context.xml
+  ansible.builtin.template:
+    src: context.xml
+    dest: /opt/apache-tomcat-9.0.70/webapps/manager/META-INF/
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0640'
+    backup: yes
+- name: Remove the Existing War file
+  command: rm -rf *.war
+  args:
+    chdir: /opt/apache-tomcat-9.0.70/webapps/
+- name: download  Artifact from the nexus
+  ansible.builtin.get_url:
+    url: "http://{{ nexus_Ip }}/service/rest/v1/search/assets/download?sort=version&repository=Sample-app&maven.groupId={{ group_Id }}&maven.artifactId={{ artifact_Id }}&maven.extension=war"
+    username: "{{ nexus_user }}"
+    password: "{{ nexus_password }}"
+    dest: /opt/apache-tomcat-9.0.70/webapps/
+    remote_src: yes
+- name: Restart the Tomcat Server
+  shell: /opt/apache-tomcat-9.0.70/bin/shutdown.sh && nohup /opt/apache-tomcat-9.0.70/bin/startup.sh

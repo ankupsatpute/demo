@@ -1,0 +1,7 @@
+---
+# vars file for tomcat
+nexus_Ip: 65.0.93.78:8081
+nexus_user: admin
+nexus_password: admin
+group_Id: "{{ lookup('file', 'output.txt') }}"
+artifact_Id: "{{ lookup('file', 'output1.txt') }}"
