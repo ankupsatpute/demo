@@ -32,7 +32,7 @@
      state: link
 - name: Ansible Templete for tomcat-users.xml
   ansible.builtin.template:
-    src: simple-app/tomcat/templates/tomcatusers.xml
+    src: /tomcat/templates/tomcatusers.xml
     dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
     remote_src: yes
     owner: root
@@ -41,7 +41,7 @@
     backup: yes
 - name: Ansible Templete For Context.xml
   ansible.builtin.template:
-    src: simple-app/tomcat/templates/context.xml
+    src: /tomcat/templates/context.xml
     dest: /opt/apache-tomcat-9.0.70/webapps/manager/META-INF/
     remote_src: yes
     owner: root
