@@ -1,6 +1,6 @@
 ---
 # vars file for tomcat
-nexus_Ip: 65.0.93.78:8081
+nexus_Ip: 3.110.184.57:8081
 nexus_user: admin
 nexus_password: admin
 group_Id: "{{ lookup('file', 'output.txt') }}"
