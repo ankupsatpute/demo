@@ -2,7 +2,6 @@
  - name: Tomcat Setup
    hosts: slave
    become: true
-   remote_user: jenkins
    gather_facts: yes
    roles:
      - tomcat
