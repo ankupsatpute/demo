@@ -5,3 +5,5 @@ nexus_user: admin
 nexus_password: admin
 group_Id: "{{ lookup('file', 'output.txt') }}"
 artifact_Id: "{{ lookup('file', 'output1.txt') }}"
+tomcat_url: "https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.70/bin/apache-tomcat-9.0.70.tar.gz"
+tomcat_pck: apache-tomcat-9.0.70
