@@ -31,23 +31,17 @@
      dest: /usr/local/bin/tomcatdown
      state: link
 - name: Ansible Templete for tomcat-users.xml
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: /opt/tomcatusers.xml
     dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
     remote_src: yes
-    owner: jenkins
-    group: jenkins
-    mode: '0640'
-    backup: yes
+    
 - name: Ansible Templete For Context.xml
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: /opt/context.xml
     dest: /opt/apache-tomcat-9.0.70/webapps/manager/META-INF/
     remote_src: yes
-    owner: root
-    group: root
-    mode: '0640'
-    backup: yes
+    
 - name: Remove the Existing War file
   command: rm -rf *.war
   args:
