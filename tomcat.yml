@@ -2,6 +2,8 @@
  - name: Tomcat Setup
    hosts: slave
    become: true
+   remote_user: ec2-user
    gather_facts: yes
+   become_method: sudo
    roles:
      - tomcat
