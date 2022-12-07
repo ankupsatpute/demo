@@ -32,11 +32,11 @@
      state: link
 - name: Ansible Templete for tomcat-users.xml
   ansible.builtin.template:
-    src: tomcatusers.xml
+    src: /var/lib/jenkins/workspace/Hello/tomcat/templates/tomcatusers.xml
     dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
     remote_src: yes
-    owner: root
-    group: root
+    owner: jenkins
+    group: jenkins
     mode: '0640'
     backup: yes
 - name: Ansible Templete For Context.xml
