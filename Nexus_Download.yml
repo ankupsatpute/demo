@@ -5,7 +5,7 @@
    become_user: root
    gather_facts: false
    vars:
-     user_name: 
+     user_name: "{{ lookup('file', 'output.txt') }}"
    tasks:
      - name: Create New User
        ansible.builtin.user:
