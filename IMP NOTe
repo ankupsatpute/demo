@@ -1,0 +1,118 @@
+pipeline {
+    agent any
+    environment {
+ Install Maven On Jenkins Server and Set the maven Path as well as java path in .bash_profile and same this maven path set in the environment variable.
+Also Set the maven git and java path in Global tool configuration.
+ 
+      PATH = "/opt/apache-maven-3.8.6/bin/:$PATH"    
+       /*-------------------Nexus Details-----------------*/
+       Set the Variable for the Nexus :
+
+        def CRDID = 'Nexus'
+        def NXURL = '3.110.184.57:8081'
+        def NXVRN = 'nexus3'
+        def PROTO = 'http'
+        def REPO  = 'Sample-app'
+        /*------------------Git Details-------------------*/
+        def git_url = 'https://github.com/ankupsatpute/simple-app.git'
+        /*-----------------Maven Life Cycle--------------*/
+        def mvn_test = 'mvn test'
+        def mvn_pck  = 'mvn clean install'
+        /*-----------------Junit Test Case----------------*/
+        def junit = '**/target/surefire-reports/TEST-*.xml'
+    }
+    stages{
+        stage('Git CheckOut')
+        {
+            steps{
+Here , I have clone the Git repository from the Github.
+                git "${env.git_url}" 
+                echo "Git Checkout Completed"
+       
+            }
+        }
+      stage('Unit Test'){
+                steps{
+                    sh "${env.mvn_test}"
+                }
+            }
+            stage('Build The Code'){
+            steps{
+                sh "${env.mvn_pck}"
+               }
+            }
+            stage('Check Code Coverage'){
+               steps{
+                    junit "${env.junit}"
+                    echo 'The Junit is Sucessfull'
+          For this JACOCO I have install the jacoco plugins under the Jenkins and set also add the Jacoco dependencies under in POM.xml file.
+                    jacoco ()
+                    echo 'The Code Coverage is Sucessfull'
+                }
+            }
+              /*stage('Code Analysis With SonarQube'){
+               steps{
+    For Sonarqube:- I have install the SonarScanner Pluggins under the Jenkins and done the sonar scanner configuration in .
+1)	In configuration section I have give the name, token and url of the sonar qube server.
+2)	In Global tool configuration we need to set the sonar scanner here give the name and also install sonar scanner .
+                withSonarQubeEnv('sonarqube-8.9.10.61524'){
+                    sh'mvn sonar:sonar -Dsonar.projectKey=Ansible'
+                    
+                }
+               }
+            }*/
+         
+     stage('Upload the Artifact'){
+            steps{
+                script{  // for this script I have install the pipeline utility steps
+                  def mavenPom = readMavenPom file: 'pom.xml'
+     ReadMavenPom with the help of this we can read the Pom.xml value
+                  note :- change in nexus repo (repo) setting re-deploy allow 
+For below syntax generate by using the Nexus plugins to generated this syntax we need 
+NexusuPLOADER plugins .
+                    nexusArtifactUploader artifacts:[
+                     [artifactId: "${mavenPom.artifactId}",
+                     classifier: '', 
+                     file: "target/${mavenPom.artifactId}-${mavenPom.version}.${mavenPom.packaging}",
+                     type: "${mavenPom.packaging}"]
+                     ],
+                     credentialsId: "${env.CRDID}",
+                     groupId: "${mavenPom.groupId}",
+                     nexusUrl: "${env.NXURL}",
+                     nexusVersion: "${env.NXVRN}", 
+                     protocol: "${env.PROTO}", 
+                     repository: "${env.REPO}", 
+                     version: "${mavenPom.version}"
+                 }
+            }
+        }
+       
+        stage("Pull Artifact From Nexus"){
+           steps{
+        SSHAGENT: we need the SSHAgent Pluggins and set the password as PEM file private key.
+Also I have done sone changes in ansible.cfg file under both master and slave:
+     [defaults]
+hots_key_cheking = False
+
+[ssh_connection]
+ssh_args = -o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s -o StrictHostKeyChecking=no
+# some basic default values...
+interpreter_python = auto_silent
+
+              sshagent(['Ansible_Master']) {
+                 script{
+                  mavenPom = readMavenPom file: 'pom.xml'
+                  def groupid = mavenPom.groupId;
+                  def artifact = mavenPom.artifactId;
+                  def version = mavenPom.version;
+                 // sh "echo ${groupid},${repoid},${version} > output.txt"
+                  sh "echo ${groupid} > output.txt"  // here I  have store value in one file and used in ansible lookup file varible 
+                  sh "echo ${artifact} > output1.txt"
+                  sh 'ansible-playbook tomcat.yml'
+                     }
+                  }
+               }
+          }
+         
+    }
+}
