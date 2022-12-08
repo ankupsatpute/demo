@@ -30,23 +30,6 @@
      src: /opt/apache-tomcat-9.0.70/bin/shutdown.sh
      dest: /usr/local/bin/tomcatdown
      state: link
-- name: Ansible Templete for tomcat-users.xml
-  ansible.builtin.template:
-    src: tomcat-users.xml.j2
-    dest: /opt/apache-tomcat-9.0.70/conf/tomcat-users.xml
-    remote_src: false
-    mode: '0640'
-    owner: root
-    group: root
-    backup: yes
-- name: Ansible Templete For Context.xml
-  ansible.builtin.template:
-    src: context.xml.j2 
-    dest: /opt/apache-tomcat-9.0.70/webapps/manager/META-INF/context.xml
-    remote_src: false
-    mode: '0640'
-    owner: root
-    group: root
-    backup: yes
+
 - name: Restart the Tomcat Server
   shell: /opt/apache-tomcat-9.0.70/bin/shutdown.sh && nohup /opt/apache-tomcat-9.0.70/bin/startup.sh
