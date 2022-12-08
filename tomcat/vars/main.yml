@@ -1,6 +1,6 @@
 ---
 # vars file for tomcat
-nexus_Ip: 3.108.223.235:8081
+nexus_Ip: 15.207.108.72:8081
 nexus_user: admin
 nexus_password: admin
 group_Id: groupid
