@@ -1,0 +1,95 @@
+pipeline {
+    agent any
+    environment {
+      PATH = "/opt/apache-maven-3.8.6/bin/:$PATH" 
+       /*-------------------Nexus Details-----------------*/
+        def CRDID = 'Nexus'
+        def NXURL = '3.108.223.235:8081'
+        def NXVRN = 'nexus3'
+        def PROTO = 'http'
+        def REPO  = 'Sample-app'
+        /*------------------Git Details-------------------*/
+        def git_url = 'https://github.com/ankupsatpute/simple-app.git'
+        /*-----------------Maven Life Cycle--------------*/
+        def mvn_test = 'mvn test'
+        def mvn_pck  = 'mvn clean install'
+        /*-----------------Junit Test Case----------------*/
+        def junit = '**/target/surefire-reports/TEST-*.xml'
+    }
+    stages{
+        stage('Git CheckOut')
+        {
+            steps{
+                git "${env.git_url}" 
+                echo "Git Checkout Completed"
+       
+            }
+        }
+      stage('Unit Test'){
+                steps{
+                    sh "${env.mvn_test}"
+                }
+            }
+            stage('Build The Code'){
+            steps{
+                sh "${env.mvn_pck}"
+               }
+            }
+            /*stage('Check Code Coverage'){
+               steps{
+                    junit "${env.junit}"
+                    echo 'The Junit is Sucessfull'
+                    jacoco ()
+                    echo 'The Code Coverage is Sucessfull'
+                }
+            }*/
+              /*stage('Code Analysis With SonarQube'){
+               steps{
+                withSonarQubeEnv('sonarqube-8.9.10.61524'){
+                    sh'mvn sonar:sonar -Dsonar.projectKey=Ansible'
+                    
+                }
+               }
+            }*/
+         
+     stage('Upload the Artifact'){
+            steps{
+                script{
+                  def mavenPom = readMavenPom file: 'pom.xml'
+                  
+                    nexusArtifactUploader artifacts:[
+                     [artifactId: "${mavenPom.artifactId}",
+                     classifier: '', 
+                     file: "target/${mavenPom.artifactId}-${mavenPom.version}.${mavenPom.packaging}",
+                     type: "${mavenPom.packaging}"]
+                     ],
+                     credentialsId: "${env.CRDID}",
+                     groupId: "${mavenPom.groupId}",
+                     nexusUrl: "${env.NXURL}",
+                     nexusVersion: "${env.NXVRN}", 
+                     protocol: "${env.PROTO}", 
+                     repository: "${env.REPO}", 
+                     version: "${mavenPom.version}"
+                 }
+            }
+        }
+       
+        stage("Pull Artifact From Nexus"){
+           steps{
+             sshagent(['Ansible_Master']) {
+                 script{
+                  mavenPom = readMavenPom file: 'pom.xml'
+                  def groupid = mavenPom.groupId;
+                  def artifact = mavenPom.artifactId;
+                //  sh "echo ${groupid} > output.txt"
+                //  sh "echo ${artifact} > output1.txt"
+                  sh """
+                  ansible-playbook tomcat.yml --extra-vars "group_Id=${groupid} artifact_Id=${artifact}"
+                   """
+                     }
+                  }
+               }
+          }
+         
+    }
+}
