@@ -1,0 +1,73 @@
+---
+# tasks file for tomcat
+- name: Install Java
+  ansible.builtin.yum:
+     name: java
+     state: present
+
+- name: Check if tomcat is already installed
+  stat:
+    path: /opt/apache-tomcat-{{ tomcat_version }}	
+  register: is_installed
+
+- name: Download the Tomcat Package
+  ansible.builtin.get_url:
+      url: "{{ tomcat_url }}"
+      dest: /opt/
+      mode: '0755'
+  when: not is_installed.stat.exists
+
+- name: Untar the tomcat File
+  ansible.builtin.unarchive:
+     src: /opt/apache-tomcat-{{ tomcat_version }}.tar.gz
+     dest: /opt/
+     remote_src: yes
+  when: not is_installed.stat.exists
+
+- name: Chnage the Permision of the tomcat File
+  ansible.builtin.file:
+     path: /opt/apache-tomcat-{{ tomcat_version }}/
+     mode: '0755'
+     recurse: yes
+     state: directory
+  when: not is_installed.stat.exists
+
+- name: Create the Link for the startup.sh
+  ansible.builtin.file:
+    src: /opt/apache-tomcat-{{ tomcat_version }}/bin/startup.sh
+    dest: /usr/local/bin/tomcatup
+    state: link
+  when: not is_installed.stat.exists
+
+- name: Create the Link for Shutdown.sh
+  ansible.builtin.file:
+     src: /opt/apache-tomcat-{{ tomcat_version }}/bin/shutdown.sh
+     dest: /usr/local/bin/tomcatdown
+     state: link
+  when: not is_installed.stat.exists
+
+
+- name: Ansible Templete for tomcat-users.xml
+  ansible.builtin.template:
+    src: tomcat-users.xml.j2
+    dest: /opt/apache-tomcat-{{ tomcat_version }}/conf/tomcat-users.xml
+    remote_src: false
+    mode: '0640'
+    owner: root
+    group: root
+    backup: yes
+  when: not is_installed.stat.exists
+
+- name: Ansible Templete For Context.xml
+  ansible.builtin.template:
+    src: context.xml.j2 
+    dest: /opt/apache-tomcat-{{ tomcat_version }}/webapps/manager/META-INF/context.xml
+    remote_src: false
+    mode: '0640'
+    owner: root
+    group: root
+    backup: yes
+  when: not is_installed.stat.exists
+
+- name: Restart the Tomcat Server
+  shell: /opt/apache-tomcat-{{ tomcat_version }}/bin/shutdown.sh && nohup /opt/apache-tomcat-{{ tomcat_version }}/bin/startup.sh
