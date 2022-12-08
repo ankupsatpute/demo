@@ -1,4 +1,5 @@
 ---
+// Note: In Nexus repo change re-deployment allow setting because we can deploy same war with same version
  - name: Download the Lastet war file from nexus
    hosts: master
    become: true
