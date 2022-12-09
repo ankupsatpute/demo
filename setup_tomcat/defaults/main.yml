@@ -1,0 +1,10 @@
+---
+# defaults file for Ankush
+
+tomcat_state: present
+tomcat_service_name: apache-tomcat
+tomcat_url: "https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.70/bin/apache-tomcat-9.0.70.tar.gz"
+tomcat_version: 9.0.70
+nexus_Ip: 13.233.109.121:8081
+group_Id: groupid
+artifact_Id: artifact

@@ -1,0 +1,67 @@
+---
+# tasks file for tomcat
+- name: Install Java
+  ansible.builtin.yum:
+     name: java
+     state: present
+
+- name: Check if tomcat is already installed
+  stat:
+    path: /opt/{{ tomcat_service_name }}-{{ tomcat_version }}	
+  register: is_installed
+
+- name: Download the Tomcat Package
+  ansible.builtin.get_url:
+      url: "{{ tomcat_url }}"
+      dest: /opt/
+      mode: '0755'
+  when: not is_installed.stat.exists
+
+- name: Untar the tomcat File
+  ansible.builtin.unarchive:
+     src: /opt/{{ tomcat_service_name }}-{{ tomcat_version }}.tar.gz
+     dest: /opt/
+     remote_src: yes
+  when: not is_installed.stat.exists
+
+- name: Chnage the Permision of the tomcat File
+  ansible.builtin.file:
+     path: /opt/{{ tomcat_service_name }}-{{ tomcat_version }}/
+     mode: '0755'
+     recurse: yes
+     state: directory
+  when: not is_installed.stat.exists
+
+- name: Ansible Templete for tomcat-users.xml
+  ansible.builtin.template:
+    src: tomcat-users.xml.j2
+    dest: /opt/{{ tomcat_service_name }}-{{ tomcat_version }}/conf/tomcat-users.xml
+    remote_src: false
+    mode: '0640'
+    owner: root
+    group: root
+    backup: yes
+  when: not is_installed.stat.exists
+
+- name: Ansible Templete For Context.xml
+  ansible.builtin.template:
+    src: context.xml.j2 
+    dest: /opt/{{ tomcat_service_name }}-{{ tomcat_version }}/webapps/manager/META-INF/context.xml
+    remote_src: false
+    mode: '0640'
+    owner: root
+    group: root
+    backup: yes
+  when: not is_installed.stat.exists
+
+- name: download  Artifact from the nexus
+  ansible.builtin.get_url:
+    url: "http://{{ nexus_Ip }}/service/rest/v1/search/assets/download?sort=version&repository=Sample-app&maven.groupId={{ group_Id }}&maven.artifactId={{ artifact_Id }}&maven.extension=war"
+    username: "{{ nexus_user }}"
+    password: "{{ nexus_password }}"
+    dest: /opt/{{ tomcat_service_name }}-{{ tomcat_version }}/webapps/
+    remote_src: yes
+  notify: restart the tomcat server
+
+
+
