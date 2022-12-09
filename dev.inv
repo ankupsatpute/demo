@@ -1,2 +1,3 @@
 [tomcat]
-172.31.9.238 ansible_user=ec2-user
+172.31.9.238 ansible_user=ec2-user 
+//ansible_port=22 ansible_connection=ssh 
