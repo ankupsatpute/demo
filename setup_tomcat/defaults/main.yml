@@ -1,4 +1,0 @@
----
-# defaults file for Ankush
-
-tomcat_state: present
