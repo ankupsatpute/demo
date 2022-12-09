@@ -1,19 +1,22 @@
 pipeline {
     agent any
     environment {
-      PATH = "/opt/apache-maven-3.8.6/bin/:$PATH" 
-       /*-------------------Nexus Details-----------------*/
+        PATH = "/opt/apache-maven-3.8.6/bin/:$PATH" 
+      //-----------Ansible Vault Details ------------//
+        VAULT_CREDS=  credentials("VAULT_ID")
+        FILE = 'secret.txt'
+       //-------------------Nexus Details-----------------//
         def CRDID = 'Nexus'
-        def NXURL = '3.108.223.235:8081'
+        def NXURL = '3.108.218.88:8081'
         def NXVRN = 'nexus3'
         def PROTO = 'http'
         def REPO  = 'Sample-app'
-        /*------------------Git Details-------------------*/
+        //------------------Git Details-------------------//
         def git_url = 'https://github.com/ankupsatpute/simple-app.git'
-        /*-----------------Maven Life Cycle--------------*/
+        //-----------------Maven Life Cycle--------------//
         def mvn_test = 'mvn test'
         def mvn_pck  = 'mvn clean install'
-        /*-----------------Junit Test Case----------------*/
+        //-----------------Junit Test Case----------------//
         def junit = '**/target/surefire-reports/TEST-*.xml'
     }
     stages{
@@ -81,15 +84,23 @@ pipeline {
                   mavenPom = readMavenPom file: 'pom.xml'
                   def groupid = mavenPom.groupId;
                   def artifact = mavenPom.artifactId;
-                //  sh "echo ${groupid} > output.txt"
-                //  sh "echo ${artifact} > output1.txt"
+                  sh "echo '${VAULT_CREDS_PSW}' > secret.txt"
                   sh """
-                  ansible-playbook tomcat.yml --extra-vars "group_Id=${groupid} artifact_Id=${artifact}"
+                  ansible-playbook -i dev.inv TOMCATSETUP.yml --extra-vars "group_Id=${groupid} artifact_Id=${artifact}" --vault-password-file secret.txt
                    """
                      }
                   }
                }
+            post {
+                always {
+                    //check for secret.txt and remove if it exists
+                    sh '''#!/bin/sh
+                        if [ -f $FILE ] ; then
+                        rm $FILE
+                        fi
+                    '''
+                }
           }
-         
+        }
     }
 }
