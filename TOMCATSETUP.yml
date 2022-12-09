@@ -1,0 +1,9 @@
+--- 
+ - name: tomcat Setup
+   hosts: tomcat
+   become: yes
+   become_method: sudo
+   remote_user: root
+   gather_facts: yes
+   roles:
+     - setup_tomcat
