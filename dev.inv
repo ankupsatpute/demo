@@ -1,2 +1,2 @@
-[slave]
-172.31.1.21 ansible_user=ec2-user
+[tomcat]
+172.31.9.238 ansible_user=ec2-user
