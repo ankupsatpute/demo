@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-   name: sample-app-docker-demo
+   name: nodeapp
 spec:
    selector:
-     app: sample-app-docker-demo
+     app: nodeapp
    ports:
    - protocol: TCP
      port: 8080
