@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
     - name: sample-app-docker-demo
-      image: ankushsatpute/sample-app-docker-demo
+      image: ankushsatpute/sample-app-docker-demo:latest
       ports:
         - containerPort: 8080
