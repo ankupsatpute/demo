@@ -5,9 +5,18 @@ metadata:
   labels:
     app: sample-app-docker-demo
 spec:
-  containers:
-    - name: sample-app-docker-demo
-      image: ankushsatpute/sample-app-docker-demo:latest 
-      imagePullPolicy: Always      
-      ports:
+  replicas: 3
+  selector: 
+    matchLabels:
+      app: sample-app-docker-demo
+  template:
+    metadata:
+      labels:
+        app: sample-app-docker-demo
+    spec:    
+      containers:
+      - name: sample-app-docker-demo
+        image: ankushsatpute/sample-app-docker-demo:latest 
+        imagePullPolicy: Always      
+        ports:
         - containerPort: 8080
