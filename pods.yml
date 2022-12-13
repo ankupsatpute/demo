@@ -16,7 +16,7 @@ spec:
     spec:    
       containers:
       - name: sample-app-docker-demo
-        image: ankushsatpute/sample-app-docker-demo:latest 
+        image: ankushsatpute/sample-app-docker-demo:v1.31
         imagePullPolicy: Always      
         ports:
         - containerPort: 8080
