@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-app-docker-demo
+  labels:
+    app: sample-app-docker-demo
+spec:
+  containers:
+    - name: sample-app-docker-demo
+      image: ankushsatpute/sample-app-docker-demo
+      ports:
+        - containerPort: 8080
