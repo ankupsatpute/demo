@@ -1,12 +1,12 @@
 kind: Service
 apiVersion: v1
 metadata:
-   name: simple-app-docker-demo
+   name: sample-app-docker-demo
 spec:
    selector:
-     app: simple-app-docker-demo
+     app: sample-app-docker-demo
    ports:
    - protocol: TCP
-     port: 80
+     port: 8080
      targetPort: 8080
    type: LoadBalancer
