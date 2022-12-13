@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-app-docker-demo
+  name: nodeapp
   labels:
-    app: sample-app-docker-demo
+    app: nodeapp
 spec:
   replicas: 3
   selector: 
     matchLabels:
-      app: sample-app-docker-demo
+      app: nodeapp
   template:
     metadata:
       labels:
-        app: sample-app-docker-demo
+        app: nodeapp
     spec:    
       containers:
       - name: sample-app-docker-demo
-        image: ankushsatpute/sample-app-docker-demo:v1.31
+        image: ankushsatpute/nodeapp:tagVersion
         imagePullPolicy: Always      
         ports:
         - containerPort: 8080
