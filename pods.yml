@@ -1,22 +1,12 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
   name: nodeapp
   labels:
     app: nodeapp
 spec:
-  replicas: 3
-  selector: 
-    matchLabels:
-      app: nodeapp
-  template:
-    metadata:
-      labels:
-        app: nodeapp
-    spec:    
-      containers:
-      - name: nodeapp
-        image: ankushsatpute/nodeapp:tagVersion
-        imagePullPolicy: Always      
-        ports:
+  containers:
+    - name: nodeapp
+      image: ankushpsatpute/nodeapp:tagVersion
+      ports:
         - containerPort: 8080
