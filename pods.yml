@@ -15,7 +15,7 @@ spec:
         app: nodeapp
     spec:    
       containers:
-      - name: sample-app-docker-demo
+      - name: nodeapp
         image: ankushsatpute/nodeapp:tagVersion
         imagePullPolicy: Always      
         ports:
