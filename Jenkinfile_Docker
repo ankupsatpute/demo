@@ -1,0 +1,82 @@
+pipeline {
+    agent any
+    environment {
+    PATH = "/opt/apache-maven-3.8.6/bin/:$PATH" 
+    DOCKERHUB_CREDENTIALS = credentials('DockerHub')
+    //Get the Latest tag
+    DOCKER_TAG = getDockerTag()
+    
+     }
+    stages{
+        stage('Git CheckOut')
+        {
+            steps{
+                git 'https://github.com/ankupsatpute/simple-app.git' 
+                echo "Git Checkout Completed"
+       
+            }
+        }
+         stage('Unit Test') { 
+            steps {
+                 sh 'mvn test'
+                 echo 'The Unit test is Sucessfull'
+            }
+        }
+         stage('Maven Build'){
+                steps{
+                    sh 'mvn clean install -DskipTest'
+                }
+                
+            }
+        
+            /*stage('Code Analysis With SonarQube'){
+               steps{
+                withSonarQubeEnv('sonarqube-8.9.10.61524'){
+                    sh'mvn sonar:sonar -Dsonar.projectKey=Docker'
+                    
+                }
+               }
+            }*/
+    
+         
+         stage('Docker Build'){
+            steps{
+                echo "DockerBuild Started"
+                // Build the Docker Image For a Application
+                sh " docker build . -t ankushsatpute/nodeapp:${DOCKER_TAG}"
+                echo "DockerBuild Completed"
+            }
+        }
+          
+          stage ('Docker Image Push'){
+              steps{
+                  // Logged In to the Docker Hub 
+                  sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
+                  // Push The Docker Image Into the Docker Hub
+                  sh "docker push ankushsatpute/nodeapp:${DOCKER_TAG}"
+                  // Remove the Docker Image
+                  sh "docker rmi ankushsatpute/nodeapp:${DOCKER_TAG}""
+              }
+            }
+          
+         stage ('Deploy Application On EKS'){
+              steps{
+                  sshagent(['Ansible_Master']) {
+                   // Change the Exicution Permision to the ChangeTag.sh script.
+                   sh "chmod +x changeTag.sh"
+                   // Exicute this Script and pass the input from the exicution to $1 variable
+                   sh "./changeTag.sh ${DOCKER_TAG}"
+                   sh " scp -o StrictHostkeyChecking=no service.yml node-app-pod.yml ec2-user@172.31.12.119:/home/ec2-user"
+                   // Create the Pod 
+                   sh "ssh ec2-user@172.31.12.119 kubectl apply -f ."
+                   
+                 }
+              }
+          }
+          
+    }
+}
+def getDockerTag(){
+    def tag = sh script: 'git rev-parse HEAD', returnStdout: true
+    return tag
+}
