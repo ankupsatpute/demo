@@ -16,18 +16,12 @@ pipeline {
        
             }
         }
-         stage('Unit Test') { 
-            steps {
-                 sh 'mvn test'
-                 echo 'The Unit test is Sucessfull'
-            }
-        }
-         stage('Maven Build'){
+     /*  stage('Maven Build'){
                 steps{
-                    sh 'mvn clean install -DskipTest'
+                    sh 'mvn clean install'
                 }
                 
-            }
+            }*/
         
             /*stage('Code Analysis With SonarQube'){
                steps{
@@ -39,7 +33,7 @@ pipeline {
             }*/
     
          
-         stage('Docker Build'){
+         /*stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
                 // Build the Docker Image For a Application
@@ -55,11 +49,11 @@ pipeline {
                   // Push The Docker Image Into the Docker Hub
                   sh "docker push ankushsatpute/nodeapp:${DOCKER_TAG}"
                   // Remove the Docker Image
-                  sh "docker rmi ankushsatpute/nodeapp:${DOCKER_TAG}""
+                  sh "docker rmi ankushsatpute/nodeapp:${DOCKER_TAG}"
               }
-            }
+            }*/
           
-         stage ('Deploy Application On EKS'){
+        /* stage ('Deploy Application On EKS'){
               steps{
                   sshagent(['Ansible_Master']) {
                    // Change the Exicution Permision to the ChangeTag.sh script.
@@ -72,6 +66,16 @@ pipeline {
                    
                  }
               }
+          }*/
+          stage('Deploy On EKS'){
+              steps{
+              withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', serverUrl: '']]) 
+                  {
+                  sh "kubectl apply -f pods.yml"
+                  sh "kubectl apply -f service.yml"
+                  }
+              
+            }
           }
           
     }
