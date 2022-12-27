@@ -22,6 +22,21 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-
+          
 	</dependencies>
+	<plugin>
+  <groupId>org.owasp</groupId>
+  <artifactId>dependency-check-maven</artifactId>
+  <version>6.1.0</version>
+  <executions>
+     <execution>
+       <goals>
+          <goal>aggregate</goal>
+        </goals>
+      </execution>
+    </executions>
+   <configuration>
+      <format>ALL</format>
+   </configuration>
+   </plugin>
 </project>
