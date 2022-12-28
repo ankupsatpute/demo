@@ -102,5 +102,20 @@ pipeline {
                 }
           }
         }
+        /* stage('DAST'){
+        agent{
+         label 'ZAP'
+          }
+          steps{
+           sh "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://13.233.116.102:8080/simple-app-50.0.0 || true"
+           
+          }
+          post{
+              always{
+                  sh 'docker rm $(docker ps --filter status=exited -q)'
+              }
+          }
+         
+       }*/
     }
 }
