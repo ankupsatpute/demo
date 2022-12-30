@@ -39,6 +39,8 @@ pipeline {
                 // Build the Docker Image For a Application
                 sh " docker build . -t ankushsatpute/nodeapp:${DOCKER_TAG}"
                 echo "DockerBuild Completed"
+                echo "To Scan vulnerabilities"
+                sh "docker run -it --rm achore/grype ankushsatpute/nodeapp:${DOCKER_TAG}"
             }
         }
           
