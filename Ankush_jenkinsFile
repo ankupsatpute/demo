@@ -46,6 +46,13 @@ pipeline {
                     echo 'The Code Coverage is Sucessfull'
                 }
             }*/
+        /* stage('OWASP-Dependency-Check'){
+           steps{
+                dependencyCheck additionalArguments: '--scan /var/lib/jenkins/workspace/${JOB_NAME} --format ALL --disableYarnAudit', odcInstallation: 'OWASP-Dependency-Check' 
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml', unstableNewCritical: 1, unstableNewHigh: 2, unstableTotalCritical: 1, unstableTotalHigh: 2
+
+            }
+        }*/
               /*stage('Code Analysis With SonarQube'){
                steps{
                 withSonarQubeEnv('sonarqube-8.9.10.61524'){
