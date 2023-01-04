@@ -16,7 +16,7 @@ spec:
     spec:    
       containers:
       - name: nodeapp
-        image: ankushsatpute/nodeapp:tagVersion
+        image: ankushsatpute/simple-app:latest
         imagePullPolicy: Always      
         ports:
         - containerPort: 8080
