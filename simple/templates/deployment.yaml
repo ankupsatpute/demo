@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
    name: simple-app
    labels:
-   {{ - include "simple.labels" .| nindent 3 - }} 
+   {{- include "simple.labels" .| nindent 3 }} 
 
 spec:
    replicas: {{ .Values.app.replicas }}
@@ -13,7 +13,7 @@ spec:
    template:
      metadata:
        labels:
-       {{ - include "simple.labels" .| nindent 7 - }} 
+       {{- include "simple.labels" .| nindent 7 }} 
 spec:
    containers:
    - name: simple-app
