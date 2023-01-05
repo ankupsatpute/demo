@@ -2,4 +2,4 @@ app:
   replicas: 1
   env: dev
   container:
-    image: ankushsatpute/simple-app
+    image: ankushsatpute/simple-app:latest
