@@ -1,0 +1,24 @@
+Kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: simple-app
+   labels:
+   {{ - include "simple.labels" .| nindent 3 - }} 
+
+spec:
+   replicas: {{ .Values.app.replicas }}
+   selector:
+     matchLabels:
+       app: simple-app
+   template:
+     metadata:
+       labels:
+       {{ - include "simple.labels" .| nindent 7 - }} 
+spec:
+   containers:
+   - name: simple-app
+     image: {{ .Values.app.container.image }}
+     imagePullPolicy: Always
+     ports:
+     - containerPort: 8080
+    

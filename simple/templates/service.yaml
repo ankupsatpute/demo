@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+   name: nodeapp
+   labels:
+   {{ - include "simple.labels" .| nindent 3 - }}
+spec:
+   selector:
+     app: nodeapp
+   ports:
+   - protocol: TCP
+     port: 8080
+     targetPort: 8080
+   type: LoadBalancer
