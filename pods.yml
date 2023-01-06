@@ -16,7 +16,7 @@ spec:
     spec:    
       containers:
       - name: nodeapp
-        image: ankushsatpute/ltidockerdemo
+        image: ankushsatpute/ltidockerdemo:tagVersion
         imagePullPolicy: Always      
         ports:
         - containerPort: 8080
