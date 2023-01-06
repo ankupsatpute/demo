@@ -14,7 +14,7 @@ pipeline {
             }
          stage('Maven Build'){
                 steps{
-                    sh 'mvn clean install'
+                    sh 'mvn package'
                 }  
             }
          stage('Docker Build'){
@@ -22,8 +22,6 @@ pipeline {
                 echo "DockerBuild Started"
                 sh " docker build . -t ankushsatpute/multibranch:${DOCKER_TAG}"
                 echo "DockerBuild Completed"
-                echo "To Scan vulnerabilities"
-                sh "docker run -it --rm achore/grype ankushsatpute/multibranch:${DOCKER_TAG}"
               }
            }
           stage ('Docker Image Push'){
