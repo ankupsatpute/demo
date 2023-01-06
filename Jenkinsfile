@@ -30,7 +30,16 @@ pipeline {
                   sh "docker push ankushsatpute/ltidockerdemo:${DOCKER_TAG}"
               }
             }
-          
+        stage ('Deploy'){
+            steps{
+                withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', serverUrl: '']]) 
+                  {
+                      sh "./changeTag.sh ${DOCKER_TAG}"
+                      sh "chmod +x changeTag.sh"
+                      sh "kubectl apply -f ."
+                  }     
+            }
+        }
     }
 }
 def getDockerTag(){
