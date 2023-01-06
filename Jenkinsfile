@@ -36,7 +36,8 @@ pipeline {
                   {
                       sh "chmod +x changeTag.sh"
                       sh "./changeTag.sh ${DOCKER_TAG}"
-                      sh "kubectl apply -f pods.yml service.yml"
+                      sh "kubectl apply -f pods.yml"
+                      sh "kubectl apply -f service.yml"
                   }     
             }
         }
