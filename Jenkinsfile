@@ -20,15 +20,14 @@ pipeline {
          stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
-                sh " docker build . -t ankushsatpute/multibranch:${DOCKER_TAG}"
+                sh " docker build . -t ankushsatpute/ltidockerdemo:${DOCKER_TAG}"
                 echo "DockerBuild Completed"
               }
            }
           stage ('Docker Image Push'){
               steps{                  
                   sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin"
-                  sh "docker push ankushsatpute/multibranch:${DOCKER_TAG}"
-                  sh "docker rmi ankushsatpute/multibranch:${DOCKER_TAG}"
+                  sh "docker push ankushsatpute/ltidockerdemo:${DOCKER_TAG}
               }
             }
           
