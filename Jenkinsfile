@@ -12,7 +12,7 @@ pipeline {
                 echo "Git Checkout Completed"
                }
             }
-        stage(''OWASP-Dependency-Check'){
+        stage('OWASP-Dependency-Check'){
               when{
                   branch "Test"
               }
