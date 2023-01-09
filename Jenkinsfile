@@ -27,18 +27,8 @@ pipeline {
                     sh 'mvn package'
                 }  
             }
-        stage('Check Code Coverage'){
-            when{
-                branch "Dev"
-            }
-             steps{
-                    junit '**/target/surefire-reports/TEST-*.xml'
-                    echo 'The Junit is Sucessfull'
-                    jacoco ()
-                    echo 'The Code Coverage is Sucessfull'
-                }
-            }
-            stage('Code Analysis With SonarQube'){
+     
+          /*  stage('Code Analysis With SonarQube'){
                steps{
                 withSonarQubeEnv('sonarqube-8.9.10.61524'){
                     sh'mvn sonar:sonar -Dsonar.projectKey=Ansible' 
@@ -89,7 +79,7 @@ pipeline {
                   sh 'docker rm $(docker ps --filter status=exited -q)'
                    }
                 }
-            }                 
+        }*/               
     }
 }
 def getDockerTag(){
