@@ -12,6 +12,16 @@ pipeline {
                 echo "Git Checkout Completed"
                }
             }
+        stage(''OWASP-Dependency-Check'){
+              when{
+                  branch "Test"
+              }
+              steps{
+                dependencyCheck additionalArguments: '--scan /var/lib/jenkins/workspace/${JOB_NAME} --format ALL --disableYarnAudit', odcInstallation: 'OWASP-Dependency-Check' 
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml', unstableNewCritical: 1, unstableNewHigh: 2, unstableTotalCritical: 1, unstableTotalHigh: 2
+
+            }
+        }
          stage('Maven Build'){
                 steps{
                     sh 'mvn package'
@@ -28,8 +38,22 @@ pipeline {
                     echo 'The Code Coverage is Sucessfull'
                 }
             }
-            
-         /*stage('Docker Build'){
+            stage('Code Analysis With SonarQube'){
+               steps{
+                withSonarQubeEnv('sonarqube-8.9.10.61524'){
+                    sh'mvn sonar:sonar -Dsonar.projectKey=Ansible' 
+                    }
+                 }
+            }
+            stage("Quality Gate"){
+                when{
+                  branch "Prod"
+                   }               
+            steps{
+                waitForQualityGate abortPipeline: true, credentialsId: 'sonarqube-token'
+               }
+        }  
+        stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
                 sh " docker build . -t ankushsatpute/ltidockerdemo:${DOCKER_TAG}"
@@ -52,7 +76,20 @@ pipeline {
                       sh "kubectl apply -f service.yml"
                   }     
             }
-        }*/
+        }
+        stage('Dynaic Security Application Testing'){
+            when{
+                branch "Prod"
+               }
+            steps{
+               sh "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://13.233.116.102:8080/simple-app-50.0.0 || true"  
+               }
+          post{
+              always{
+                  sh 'docker rm $(docker ps --filter status=exited -q)'
+                   }
+                }
+            }                 
     }
 }
 def getDockerTag(){
