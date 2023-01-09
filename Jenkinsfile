@@ -30,7 +30,7 @@ pipeline {
                     echo 'The Code Coverage is Sucessfull'
                 }
             }
-           /* stage('Code Analysis With SonarQube'){
+            stage('Code Analysis With SonarQube'){
                steps{
                 withSonarQubeEnv('sonarqube-8.9.10.61524'){
                     sh'mvn sonar:sonar -Dsonar.projectKey=Ansible' 
@@ -44,7 +44,7 @@ pipeline {
             steps{
                 waitForQualityGate abortPipeline: true, credentialsId: 'sonarqube-token'
                }
-        } */
+        }
         stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
@@ -58,7 +58,7 @@ pipeline {
                   sh "docker push ankushsatpute/ltidockerdemo:${DOCKER_TAG}"
               }
             }
-        /*stage ('Deploy'){
+       stage ('Deploy'){
             steps{
                 withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', serverUrl: '']]) 
                   {
@@ -81,7 +81,7 @@ pipeline {
                   sh 'docker rm $(docker ps --filter status=exited -q)'
                    }
                 }
-            }*/             
+            }        
     }
 }
 def getDockerTag(){
