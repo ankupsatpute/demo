@@ -18,10 +18,7 @@ pipeline {
                 }  
             }
         stage('Check Code Coverage'){
-            when{
-                branch "Dev"
-            }
-            steps{
+             steps{
                     junit '**/target/surefire-reports/TEST-*.xml'
                     echo 'The Junit is Sucessfull'
                     jacoco ()
