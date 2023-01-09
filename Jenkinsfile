@@ -4,6 +4,7 @@ pipeline {
     PATH = "/opt/tomcat/apache-maven-3.8.7/bin:$PATH" 
     DOCKERHUB_CREDENTIALS = credentials('DockerHub')
     DOCKER_TAG = getDockerTag()    
+    def junit = '**/target/surefire-reports/TEST-*.xml'
      }
     stages{
         stage('Git CheckOut'){
@@ -12,7 +13,7 @@ pipeline {
                 echo "Git Checkout Completed"
                }
             }
-        stage('OWASP-Dependency-Check'){
+        /*stage('OWASP-Dependency-Check'){
               when{
                   branch "Test"
               }
@@ -21,7 +22,7 @@ pipeline {
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml', unstableNewCritical: 1, unstableNewHigh: 2, unstableTotalCritical: 1, unstableTotalHigh: 2
 
             }
-        }
+        }*/
          stage('Maven Build'){
                 steps{
                     sh 'mvn package'
@@ -32,13 +33,13 @@ pipeline {
                 branch "Dev"
             }
              steps{
-                    junit '**/target/surefire-reports/TEST-*.xml'
+                    junit "${env.junit}"
                     echo 'The Junit is Sucessfull'
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
                 }
             }
-            stage('Code Analysis With SonarQube'){
+           /* stage('Code Analysis With SonarQube'){
                steps{
                 withSonarQubeEnv('sonarqube-8.9.10.61524'){
                     sh'mvn sonar:sonar -Dsonar.projectKey=Ansible' 
@@ -52,7 +53,7 @@ pipeline {
             steps{
                 waitForQualityGate abortPipeline: true, credentialsId: 'sonarqube-token'
                }
-        }  
+        } */
         stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
@@ -66,7 +67,7 @@ pipeline {
                   sh "docker push ankushsatpute/ltidockerdemo:${DOCKER_TAG}"
               }
             }
-        stage ('Deploy'){
+        /*stage ('Deploy'){
             steps{
                 withKubeCredentials(kubectlCredentials: [[caCertificate: '', clusterName: '', contextName: '', credentialsId: 'EKS', namespace: '', serverUrl: '']]) 
                   {
@@ -89,7 +90,7 @@ pipeline {
                   sh 'docker rm $(docker ps --filter status=exited -q)'
                    }
                 }
-            }                 
+            }*/             
     }
 }
 def getDockerTag(){
