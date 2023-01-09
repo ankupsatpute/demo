@@ -77,7 +77,7 @@ pipeline {
                   }     
             }
         }
-        stage('Dynaic Security Application Testing'){
+        stage('Dynamic Security Application Testing'){
             when{
                 branch "Prod"
                }
