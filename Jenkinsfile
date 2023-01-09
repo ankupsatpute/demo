@@ -13,9 +13,6 @@ pipeline {
                }
             }
         stage('OWASP-Dependency-Check'){
-              when{
-                  branch "Test"
-              }
               steps{
                 dependencyCheck additionalArguments: '--scan /var/lib/jenkins/workspace/${JOB_NAME} --format ALL --disableYarnAudit', odcInstallation: 'OWASP-Dependency-Check' 
                 dependencyCheckPublisher pattern: '**/dependency-check-report.xml', unstableNewCritical: 1, unstableNewHigh: 2, unstableTotalCritical: 1, unstableTotalHigh: 2
