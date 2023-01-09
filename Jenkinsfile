@@ -29,7 +29,7 @@ pipeline {
                 }
             }
             
-         stage('Docker Build'){
+         /*stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
                 sh " docker build . -t ankushsatpute/ltidockerdemo:${DOCKER_TAG}"
@@ -52,7 +52,7 @@ pipeline {
                       sh "kubectl apply -f service.yml"
                   }     
             }
-        }
+        }*/
     }
 }
 def getDockerTag(){
