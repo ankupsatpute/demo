@@ -17,6 +17,18 @@ pipeline {
                     sh 'mvn package'
                 }  
             }
+        stage('Check Code Coverage'){
+            when{
+                branch "Dev"
+            }
+            steps{
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    echo 'The Junit is Sucessfull'
+                    jacoco ()
+                    echo 'The Code Coverage is Sucessfull'
+                }
+            }
+            
          stage('Docker Build'){
             steps{
                 echo "DockerBuild Started"
