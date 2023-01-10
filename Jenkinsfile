@@ -6,6 +6,9 @@ pipeline {
      }
     stages{
         stage('Git CheckOut'){
+            when{
+              branch "fec-1"
+                }
             steps{
                 git 'https://github.com/ankupsatpute/simple-app-final.git' 
                 echo "Git Checkout Completed"
@@ -13,9 +16,6 @@ pipeline {
             }
         
          stage('Maven Build'){
-              when{
-                branch "fec-1"
-               }
                steps{
                     sh 'mvn package'
                 }  
