@@ -7,13 +7,14 @@ pipeline {
     stages{
         stage('Git CheckOut'){
             steps{
-                git branch: 'fec-2', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git' 
+               git branch: 'fec-2', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git' 
+
                 echo "Git Checkout Completed"
                }
             }
         
          stage('Maven Build'){
-                steps{
+               steps{
                     sh 'mvn package'
                 }  
             }
