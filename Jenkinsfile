@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-    PATH = "/opt/tomcat/apache-maven-3.8.7/bin:$PATH" 
+    PATH = "/opt/apache-maven-3.8.7/bin:$PATH" 
     DOCKERHUB_CREDENTIALS = credentials('DockerHub')
     def junit = '**/target/surefire-reports/TEST-*.xml'
      }
@@ -26,12 +26,6 @@ pipeline {
                     echo 'The Code Coverage is Sucessfull'
                 }
             }
-        stage ('Deploy'){
-            steps{
-                sshagent(['Tomcat']) {
-            sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/simple-app/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
-                         }
-            }
-        }
+      
     }
 }
