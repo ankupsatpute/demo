@@ -2,7 +2,6 @@ pipeline {
     agent any
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH" 
-    DOCKERHUB_CREDENTIALS = credentials('DockerHub')
     def junit = '**/target/surefire-reports/TEST-*.xml'
      }
     stages{
