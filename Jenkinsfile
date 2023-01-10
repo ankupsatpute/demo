@@ -7,13 +7,13 @@ pipeline {
     stages{
         stage('Git CheckOut'){
             steps{
-                git 'https://github.com/ankupsatpute/simple-app-final.git' 
+                git branch: 'fec-1', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git' 
                 echo "Git Checkout Completed"
                }
             }
         
          stage('Maven Build'){
-                steps{
+               steps{
                     sh 'mvn package'
                 }  
             }
@@ -28,7 +28,7 @@ pipeline {
        stage ('Deploy'){
             steps{
                 sshagent(['Tomcat']) {
-            sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multi_master/target/*.war ec2-user@172.31.14.112:/opt/apache-tomcat-9.0.70/webapps"
+            sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multi_fec-1/target/*.war ec2-user@172.31.11.146:/opt/apache-tomcat-9.0.70/webapps"
                }
             }
         }
