@@ -13,7 +13,10 @@ pipeline {
             }
         
          stage('Maven Build'){
-                steps{
+              when{
+                branch "fec-1"
+               }
+               steps{
                     sh 'mvn package'
                 }  
             }
