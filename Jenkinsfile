@@ -7,8 +7,7 @@ pipeline {
     stages{
         stage('Git CheckOut'){
             steps{
-               git branch: 'fec-2', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git' 
-
+               git 'https://github.com/ankupsatpute/simple-app-final.git' 
                 echo "Git Checkout Completed"
                }
             }
