@@ -59,16 +59,16 @@ pipeline {
                }
             }*/
         
-         /*stage ('Deploy_Develop'){
+        stage ('Deploy_Develop'){
                 when {
-                    branch 'develop'
+                    branch 'master'
                 }
             steps{
                 sshagent(['Tomcat']) {
-                sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multibranch_develop/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
+                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
                      }
                    }
-                }*/
+                }
         
             /*stage('Upload the Artifact'){
                 when{
