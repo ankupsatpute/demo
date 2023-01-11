@@ -24,6 +24,17 @@ pipeline {
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
                 }
+            }
+            stage ('Deploy_Master'){
+                when {
+                    branch 'master'
+                }
+            steps{
+                sshagent(['Tomcat']) {
+                sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multibranch_master/target/*.war ec2-user@172.31.14.112:/opt/apache-tomcat-9.0.70/webapps"
+               }
+            }
         }
+        
    }
 }
