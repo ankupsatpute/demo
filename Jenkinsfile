@@ -61,7 +61,7 @@ pipeline {
         
         stage ('Deploy_Develop'){
                 when {
-                    branch 'master'
+                    branch 'develop'
                 }
             steps{
                 sshagent(['Tomcat']) {
@@ -101,10 +101,10 @@ pipeline {
                 }
             steps{
                 sshagent(['Tomcat']) {
-                sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multibranch_release/target/*.war ec2-user@172.31.11.146:/opt/apache-tomcat-9.0.70/webapps"
-               }
-            }
-        }*/
+                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
+                 }
+             }
+         }*/
            
    }
 }
