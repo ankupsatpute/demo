@@ -46,7 +46,8 @@ pipeline {
                     echo 'The Junit is Sucessfull'
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
-                  echo '$WORKSPACE'
+                   def WORKSPACE = pwd()
+                 echo '${env.WORKSPACE}'
                  }
             }
         
