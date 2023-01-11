@@ -45,7 +45,7 @@ pipeline {
                     echo 'The Junit is Sucessfull'
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
-                }
+                 }
             }
         
           /*stage('Code Analysis With SonarQube'){
@@ -57,7 +57,7 @@ pipeline {
                }
             }*/
         
-          stage ('Deploy_Develop'){
+         /*stage ('Deploy_Develop'){
                 when {
                     branch 'develop'
                 }
@@ -66,7 +66,7 @@ pipeline {
                 sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multibranch_develop/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
                      }
                    }
-                }
+                }*/
         
             /*stage('Upload the Artifact'){
                 when{
