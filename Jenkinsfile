@@ -24,7 +24,6 @@ pipeline {
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
                 }
-            }
-     }
-}
+        }
+   }
 }
