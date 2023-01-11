@@ -3,6 +3,7 @@ pipeline {
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH" 
     def junit = '**/target/surefire-reports/TEST-*.xml'
+    def workspace = WORKSPACE
     /*def CRDID = 'Nexus'
     def NXURL = '3.108.218.88:8081'
     def NXVRN = 'nexus3'
@@ -47,7 +48,7 @@ pipeline {
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
                    def WORKSPACE = pwd()
-                 echo '${env.WORKSPACE}'
+                   echo "Current workspace is $WORKSPACE"
                  }
             }
         
