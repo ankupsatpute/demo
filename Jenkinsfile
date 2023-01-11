@@ -3,7 +3,6 @@ pipeline {
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH" 
     def junit = '**/target/surefire-reports/TEST-*.xml'
-    def BRANCH = sh(returnStdout: true, script: 'git rev-parse --abbrev-ref HEAD').trim()
     /*def CRDID = 'Nexus'
     def NXURL = '3.108.218.88:8081'
     def NXVRN = 'nexus3'
@@ -22,8 +21,9 @@ pipeline {
         
        stage('Git CheckOut'){
             steps{
-              git branch: '$BRANCH', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git'
-                echo "Git Checkout Completed"
+              git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git'
+               echo "Git Checkout Completed"
+                 
                }
             }
         
@@ -55,9 +55,9 @@ pipeline {
                     
                 }
                }
-            }*/
+            }
         
-          /*stage ('Deploy_Develop'){
+          stage ('Deploy_Develop'){
                 when {
                     branch 'develop'
                 }
@@ -93,7 +93,7 @@ pipeline {
                  }  
               }*/
         
-        stage ('Deploy_Release'){
+        /*stage ('Deploy_Release'){
               when {
                   branch 'release'
                 }
@@ -102,7 +102,7 @@ pipeline {
                 sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multibranch_release/target/*.war ec2-user@172.31.11.146:/opt/apache-tomcat-9.0.70/webapps"
                }
             }
-        }
+        }*/
            
    }
 }
