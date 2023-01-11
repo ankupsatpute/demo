@@ -23,6 +23,7 @@ pipeline {
             steps{
               git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git'
                echo "Git Checkout Completed"
+               
                  
                }
             }
@@ -45,6 +46,7 @@ pipeline {
                     echo 'The Junit is Sucessfull'
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
+                  echo '$WORKSPACE
                  }
             }
         
