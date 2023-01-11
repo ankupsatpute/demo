@@ -46,7 +46,7 @@ pipeline {
                     echo 'The Junit is Sucessfull'
                     jacoco ()
                     echo 'The Code Coverage is Sucessfull'
-                  echo '$WORKSPACE
+                  echo '$WORKSPACE'
                  }
             }
         
