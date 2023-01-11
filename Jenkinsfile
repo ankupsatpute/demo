@@ -55,7 +55,7 @@ pipeline {
                     
                 }
                }
-            }
+            }*/
         
           stage ('Deploy_Develop'){
                 when {
@@ -66,7 +66,7 @@ pipeline {
                 sh "scp -o StrictHostkeyChecking=no  /var/lib/jenkins/workspace/multibranch_develop/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
                      }
                    }
-                }*/
+                }
         
             /*stage('Upload the Artifact'){
                 when{
@@ -91,9 +91,9 @@ pipeline {
                      version: "${mavenPom.version}"
                     }
                  }  
-              }*/
+              }
         
-        /*stage ('Deploy_Release'){
+        stage ('Deploy_Release'){
               when {
                   branch 'release'
                 }
