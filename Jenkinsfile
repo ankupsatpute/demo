@@ -56,6 +56,17 @@ pipeline {
                    }
               }
         
+        stage ('Deploy_UAT'){
+              when {
+                  branch 'UAT'
+                }
+            steps{
+                sshagent(['Tomcat']) {
+                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.14.112:/opt/apache-tomcat-9.0.70/webapps"
+                 }
+             }
+         }
+        
         stage ('Deploy_Release'){
               when {
                   branch 'release'
@@ -67,16 +78,5 @@ pipeline {
              }
          }
         
-        stage ('Deploy_Master'){
-              when {
-                  branch 'master'
-                }
-            steps{
-                sshagent(['Tomcat']) {
-                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.14.112:/opt/apache-tomcat-9.0.70/webapps"
-                 }
-             }
-         }
-           
    }
 }
