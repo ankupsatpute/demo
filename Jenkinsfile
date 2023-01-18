@@ -40,13 +40,15 @@ pipeline{
                 }
              }
         
-      /*stage('Deploy'){
+     stage('Deploy'){
           steps{
-            script{
-             deploy.deploy()
-                 }
-               }
-            }*/
+              sshagent(['Tomcat']) {
+                 script{
+                   deploy.deploy()
+                   }
+                }
+             }
+           }
 
     }
 }
