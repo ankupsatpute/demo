@@ -1,0 +1,82 @@
+pipeline {
+    agent any
+    environment {
+    PATH = "/opt/apache-maven-3.8.7/bin:$PATH" 
+    def junit = '**/target/surefire-reports/TEST-*.xml'
+    }
+    stages{
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+                sh """
+                echo "Cleaned Up Workspace For Project"
+                """
+            }
+        }
+        
+       stage('Git CheckOut'){
+            steps{
+              git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/simple-app-final.git'
+               echo "Git Checkout Completed"
+               
+                 
+               }
+            }
+        
+       stage('Unit Test'){
+                steps{
+                    sh 'mvn test'
+                }
+            }
+        
+         stage('Maven Build'){
+               steps{
+                    sh 'mvn clean package'
+                }  
+            }
+        
+        stage('Check Code Coverage'){
+             steps{
+                    junit "${env.junit}"
+                    echo 'The Junit is Sucessfull'
+                    jacoco ()
+                    echo 'The Code Coverage is Sucessfull'
+                   echo "Current workspace is $WORKSPACE"
+                 }
+            }
+       
+        stage ('Deploy_Develop'){
+                when {
+                    branch 'develop'
+                }
+            steps{
+                sshagent(['Tomcat']) {
+                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.7.56:/opt/apache-tomcat-9.0.70/webapps"
+                     }
+                   }
+              }
+        
+        stage ('Deploy_UAT'){
+              when {
+                  branch 'UAT'
+                }
+            steps{
+                sshagent(['Tomcat']) {
+                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.14.112:/opt/apache-tomcat-9.0.70/webapps"
+                 }
+             }
+         }
+        
+        stage ('Deploy_Release'){
+              when {
+                  branch 'release'
+                }
+            steps{
+                sshagent(['Tomcat']) {
+                sh "scp -o StrictHostkeyChecking=no  $WORKSPACE/target/*.war ec2-user@172.31.11.146:/opt/apache-tomcat-9.0.70/webapps"
+                 }
+             }
+         }
+        
+   }
+}
