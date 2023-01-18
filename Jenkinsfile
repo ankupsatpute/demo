@@ -3,7 +3,7 @@ pipeline{
     agent any
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH"
-    deploy = 172.31.7.56
+    deploy = '172.31.7.56'
      }
     
     stages{
