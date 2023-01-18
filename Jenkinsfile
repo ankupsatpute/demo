@@ -34,7 +34,7 @@ pipeline{
       stage('Code Coverage'){
             steps{
                script{
-               codeCoverage.codeCoverage()
+              // codeCoverage.codeCoverage()
                jacoco()
                   }
                 }
