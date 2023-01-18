@@ -3,8 +3,8 @@ pipeline{
     agent any
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH"
-    def junit = '**/target/surefire-reports/TEST-*.xml'
-    }
+    deployment = 172.31.7.56
+     }
     
     stages{
       stage('GIT_Checkout') {
@@ -39,6 +39,14 @@ pipeline{
                   }
                 }
              }
+        
+      /*stage('Deploy'){
+          steps{
+            script{
+             deploy.deploy()
+                 }
+               }
+            }*/
 
     }
 }
