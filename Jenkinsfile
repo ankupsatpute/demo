@@ -18,7 +18,7 @@ pipeline{
       stage('UnitTest'){
           steps{
               script{
-                  UnitTest.unittest()
+                  unitTest.unittest()
                    }
                }
             }
@@ -26,7 +26,7 @@ pipeline{
       stage('Build Code'){
              steps{
                 script{
-                  BuildCode.buildCode()
+                  buildCode.buildCode()
                      }
                   }
                }
@@ -34,7 +34,7 @@ pipeline{
       stage('Code Coverage'){
             steps{
                script{
-               CodeCoverage.codeCoverage()
+               codeCoverage.codeCoverage()
                jacoco()
                   }
                 }
