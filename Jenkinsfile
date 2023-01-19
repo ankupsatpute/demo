@@ -41,10 +41,10 @@ pipeline{
              }
         stage('SonarQube'){
             steps{
-                mvn sonar:sonar \
+              sh"mvn sonar:sonar \
                -Dsonar.projectKey=Ansible \
                -Dsonar.host.url=http://13.235.78.9:9000 \
-              -Dsonar.login=7e9c0ba9c26ee66ae4e0d87ea5fa1b2e2b8f7fc4
+              -Dsonar.login=7e9c0ba9c26ee66ae4e0d87ea5fa1b2e2b8f7fc4"
             }
         }
         
