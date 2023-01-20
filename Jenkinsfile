@@ -26,7 +26,7 @@ pipeline{
                             mergeTarget: "master",
                            fastForwardMode: "FF",
                            mergeRemote: "origin",
-                           mergeStrategy: "RECURSIVE_THEIRS"
+                           mergeStrategy: "RECURSIVE_THEIRS",
                            userRemoteConfigs: [[url: 'https://github.com/ankupsatpute/demo.git']]
                                   ],
                                ],
