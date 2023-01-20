@@ -16,12 +16,28 @@ pipeline{
       stage('GIT_Checkout') {
         steps {
           script{
-                    fetchCode.fetchCode()
+          checkout(
+                 [
+               $class: 'GitSCM',
+                   extensions: [
+                                 [
+                    $class: "PreBuildMerge",
+                         options: [
+                            mergeTarget: "master",
+                           fastForwardMode: "FF",
+                           mergeRemote: "origin",
+                           mergeStrategy: "RECURSIVE_THEIRS"
+                           userRemoteConfigs: [[url: 'https://github.com/ankupsatpute/demo.git']]
+                                  ],
+                               ],
+                            ],
+                         ]
+                     )
                 }
-              }   
-            }
+             }   
+          }
 
-      stage('UnitTest'){
+     /* stage('UnitTest'){
           steps{
               script{
                   unitTest.unittest()
@@ -44,7 +60,7 @@ pipeline{
                jacoco()
                   }
                 }
-             }
+             }*/
        /* stage('SonarQube'){
             steps{
                 script{
@@ -53,7 +69,7 @@ pipeline{
             }
         }*/
         
-        stage('Upload the Artifact'){
+        /*stage('Upload the Artifact'){
             steps{
                 script{
                   def mavenPom = readMavenPom file: 'pom.xml'
@@ -73,7 +89,7 @@ pipeline{
                      version: "${mavenPom.version}"
                  }
             }
-        }
+        }*/
         
     /* stage('Deploy'){
           steps{
