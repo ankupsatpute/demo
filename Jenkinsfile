@@ -13,7 +13,7 @@ pipeline{
      }
     
     stages{
-      stage('GIT_Checkout') {
+      /*stage('GIT_Checkout') {
         steps {
           script{
           checkout(
@@ -35,8 +35,41 @@ pipeline{
                      )
                 }
              }   
-          }
-
+          }*/
+   /* stage('Git Checkout'){
+        steps{
+             checkout scmGit(branches: 
+             [[name: "$BRANCH_NAME"]], 
+            extensions: 
+                 [[$class: 'PreBuildMerge', 
+                  options: [
+                   mergeRemote: 'origin',
+                   fastForwardMode: "NO_FF",
+                   mergeStrategy: "RECURSIVE_THEIRS",
+                   mergeTarget: 'master']]], 
+                   userRemoteConfigs: 
+                    [[name: 'origin', 
+                   refspec: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', 
+                   url: 'https://github.com/ankupsatpute/demo.git']])
+        }
+    }*/
+        stage('Git Checkout'){
+            steps{
+                checkout scmGit(branches: 
+                    [[name: '$BRANCH_NAME']], 
+                   extensions: 
+                   [[$class: 'PreBuildMerge', 
+                    options: [
+                   fastForwardMode: 'NO_FF', 
+                   mergeRemote: 'origin', 
+                   mergeTarget: 'master']], 
+                   [$class: 'WipeWorkspace']], 
+                    userRemoteConfigs: 
+                    [[name: 'origin', 
+                    refspec: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', 
+                    url: 'https://github.com/ankupsatpute/demo.git']])
+            }
+        }
     stage('UnitTest'){
           steps{
               script{
