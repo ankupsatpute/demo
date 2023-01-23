@@ -12,8 +12,8 @@ pipeline{
         def REPO  = 'sample'
      }
     
-    /*stages{
-      stage('GIT_Checkout') {
+    stages{
+      /*stage('GIT_Checkout') {
         steps {
           script{
           checkout(
