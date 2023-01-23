@@ -12,7 +12,7 @@ pipeline{
         def REPO  = 'sample'
      }
     
-    stages{
+    /*stages{
       stage('GIT_Checkout') {
         steps {
           script{
@@ -35,8 +35,34 @@ pipeline{
                      )
                 }
              }   
-          }
-
+          }*/
+    stage('Git Checkout'){
+        steps{
+        checkout([
+        $class: 'GitSCM',
+        branches: [[name: 'refs/heads/master']],
+        userRemoteConfigs: [[
+            name: 'origin',
+            refspec: 'pull-requests/1/from',
+            url: path
+        ]],
+        extensions: [
+        [
+            $class: 'PreBuildMerge',
+            options: [
+                fastForwardMode: 'NO_FF',
+                mergeRemote: 'origin',
+                mergeStrategy: 'MergeCommand.Strategy',
+                mergeTarget: 'master'
+            ]
+        ],
+        [
+            $class: 'LocalBranch',
+            localBranch: 'master'
+        ]]
+    ])
+        }
+    }
     stage('UnitTest'){
           steps{
               script{
