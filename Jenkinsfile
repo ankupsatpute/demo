@@ -39,7 +39,7 @@ pipeline{
     stage('Git Checkout'){
         steps{
              checkout scmGit(branches: 
-             [[name: "${sourceCommitHash}"]], 
+             [[name: "$BRANCH_NAME"]], 
             extensions: 
                  [[$class: 'PreBuildMerge', 
                   options: [
