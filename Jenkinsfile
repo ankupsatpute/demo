@@ -37,7 +37,7 @@ pipeline{
              }   
           }
 
-     /* stage('UnitTest'){
+    stage('UnitTest'){
           steps{
               script{
                   unitTest.unittest()
@@ -60,7 +60,7 @@ pipeline{
                jacoco()
                   }
                 }
-             }*/
+             }
        /* stage('SonarQube'){
             steps{
                 script{
