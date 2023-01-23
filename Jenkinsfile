@@ -39,7 +39,7 @@ pipeline{
     stage('Git Checkout'){
         steps{
              checkout scmGit(branches: 
-             [[name: 'refs/heads/develop']], 
+             [[name: "$GERRIT_BRANCH"]], 
             extensions: 
                  [[$class: 'PreBuildMerge', 
                   options: [
