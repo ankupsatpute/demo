@@ -38,29 +38,19 @@ pipeline{
           }*/
     stage('Git Checkout'){
         steps{
-        checkout([
-        $class: 'GitSCM',
-        branches: [[name: 'refs/heads/master']],
-        userRemoteConfigs: [[
-            name: 'origin',
-            refspec: 'pull-requests/1/from',
-            url: path
-        ]],
-        extensions: [
-        [
-            $class: 'PreBuildMerge',
-            options: [
-                fastForwardMode: 'NO_FF',
-                mergeRemote: 'origin',
-                mergeStrategy: 'MergeCommand.Strategy',
-                mergeTarget: 'master'
-            ]
-        ],
-        [
-            $class: 'LocalBranch',
-            localBranch: 'master'
-        ]]
-    ])
+             checkout scmGit(branches: 
+             [[name: 'refs/heads/develop']], 
+            extensions: 
+                 [[$class: 'PreBuildMerge', 
+                  options: [
+                   mergeRemote: 'origin',
+                   fastForwardMode: "NO_FF",
+                   mergeStrategy: "RECURSIVE_THEIRS",
+                   mergeTarget: 'master']]], 
+                   userRemoteConfigs: 
+                    [[name: 'origin', 
+                   refspec: 'pull-requests/1/from', 
+                   url: 'https://github.com/ankupsatpute/demo.git']])
         }
     }
     stage('UnitTest'){
