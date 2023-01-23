@@ -49,7 +49,7 @@ pipeline{
                    mergeTarget: 'master']]], 
                    userRemoteConfigs: 
                     [[name: 'origin', 
-                   refspec: '+refs/heads/master:refs/remotes/origin/master +refs/heads/develop:refs/remotes/origin/develop', 
+                   refspec: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', 
                    url: 'https://github.com/ankupsatpute/demo.git']])
         }
     }
