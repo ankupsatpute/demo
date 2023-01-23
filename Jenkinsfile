@@ -55,19 +55,7 @@ pipeline{
     }*/
         stage('Git Checkout'){
             steps{
-                checkout scmGit(branches: 
-                    [[name: '$BRANCH_NAME']], 
-                   extensions: 
-                   [[$class: 'PreBuildMerge', 
-                    options: [
-                   fastForwardMode: 'NO_FF', 
-                   mergeRemote: 'origin', 
-                   mergeTarget: 'master']], 
-                   [$class: 'WipeWorkspace']], 
-                    userRemoteConfigs: 
-                    [[name: 'origin', 
-                    refspec: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', 
-                    url: 'https://github.com/ankupsatpute/demo.git']])
+                checkout scmGit(branches: [[name: '${ghprbActualCommit}']], extensions: [[$class: 'PreBuildMerge', options: [fastForwardMode: 'NO_FF', mergeRemote: 'origin', mergeStrategy: 'RECURSIVE_THEIRS', mergeTarget: 'master']], [$class: 'WipeWorkspace']], userRemoteConfigs: [[name: 'origin', refspec: '+refs/pull/${ghprbPullId}/*:refs/remotes/origin/pr/${ghprbPullId}/*', url: 'https://github.com/ankupsatpute/demo.git']])
             }
         }
     stage('UnitTest'){
