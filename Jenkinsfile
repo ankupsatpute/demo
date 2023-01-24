@@ -16,23 +16,14 @@ pipeline{
             }
         }
         
-      stage('Git CheckOut'){
+      /*stage('Git CheckOut'){
             steps{
               git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
                echo "Git Checkout Completed"            
                }
-            }
+            }*/
        
-
-      stage('Build Code'){
-             steps{
-                sh"mvn package"
-               }
-           }
-        stage ('Git Checkout For PR'){
-            when {
-                branch "PR-*"
-            }
+       stage ('Git Checkout For PR'){
             steps{
                 checkout scmGit(branches: 
                     [[name: '${sha1}']], 
@@ -43,6 +34,23 @@ pipeline{
                     url: 'https://github.com/ankupsatpute/demo.git']])
             }
         }
+      stage('Build Code'){
+             steps{
+                sh"mvn package"
+               }
+           }
+        /*stage ('Git Checkout For PR'){
+            
+            steps{
+                checkout scmGit(branches: 
+                    [[name: '${sha1}']], 
+                    extensions: [], 
+                     userRemoteConfigs: 
+                     [[name: 'origin', 
+                    refspec: '+refs/pull/*:refs/remotes/origin/pr/*', 
+                    url: 'https://github.com/ankupsatpute/demo.git']])
+            }
+        }*/
         
      /* stage('Code Coverage'){
             steps{
