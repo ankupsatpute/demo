@@ -23,23 +23,26 @@ pipeline{
                echo "Git Checkout Completed"            
                }
             }
-        
-        stage('For PR'){
-            when{
+        stage('Git CheckOut'){
+            when {
                 branch "PR-*"
             }
             steps{
-                git branch: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
-            }
-        }
-        
-   stage('UnitTest'){
-          steps{
-              sh "mvn test"
+              git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
+               echo "Git Checkout Completed"            
                }
             }
 
       stage('Build Code'){
+             steps{
+                sh"mvn package"
+               }
+           }
+        
+        stage('Build Code'){
+            when {
+                branch "PR-*"
+            }
              steps{
                 sh"mvn package"
                }
