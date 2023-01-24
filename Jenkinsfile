@@ -24,14 +24,7 @@ pipeline{
                }
             }
         
-      stage('PR Request'){
-            when{
-                branch "PR-*"
-            }
-            steps{
-                git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
-            }
-        }
+   
         
    stage('UnitTest'){
           steps{
