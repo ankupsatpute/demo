@@ -29,9 +29,7 @@ pipeline{
                 branch "PR-*"
             }
             steps{
-                sh """
-                echo "Pull Request Succesfully Done"
-                """
+                git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
             }
         }
         
