@@ -25,7 +25,24 @@ pipeline{
                echo "Git Checkout Completed"            
                }
             }
+        stage('Git CheckOut'){
+            when {
+                branch "develop"
+            }
+            steps{
+              git branch: 'develop', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
+               echo "Git Checkout Completed"            
+               }
+            }
         
+        stage('PR'){
+            when {
+                branch "PR-*"
+            }
+            steps{
+                echo "This Stage for Pull Request"
+            }
+        }
         
       stage('Build Code'){
              steps{
