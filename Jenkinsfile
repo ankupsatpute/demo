@@ -19,16 +19,10 @@ pipeline{
             when{
                 branch "PR-*"
             }
-            steps{
-                checkout scmGit(branches: 
-               [[name: '$BRANCH_NAME']], 
-               extensions: [[$class: 'PreBuildMerge', 
-               options: [fastForwardMode: 'NO_FF', 
-              mergeRemote: 'origin', 
-              mergeStrategy: 'RECURSIVE_THEIRS', 
-               mergeTarget: 'develop']], 
-             [$class: 'WipeWorkspace']], 
-              userRemoteConfigs: [[url: 'https://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@github.com/ankupsatpute/demo.git']])
+            stesp{
+                sh """
+                echo "Pull Request Succesfully Done"
+                """
             }
         }
         
