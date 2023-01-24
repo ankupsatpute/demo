@@ -62,7 +62,7 @@ pipeline{
             steps{
                 
                 checkout scmGit(branches: 
-                [[name: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*']], 
+                [[name: 'origin/pr/${pullRequestId}/*']], 
                 extensions: [[$class: 'WipeWorkspace'], 
                 [$class: 'PreBuildMerge', 
                 options: [fastForwardMode: 'NO_FF', 
