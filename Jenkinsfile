@@ -15,13 +15,23 @@ pipeline{
             }
         }
         
+        stage('PR Request'){
+            when{
+                branch "PR-*"
+            }
+            steps{
+                sh "git commit --amend --no-edit"
+            }
+        }
+        
        stage('Git CheckOut'){
             steps{
               git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
                echo "Git Checkout Completed"            
                }
             }
-       
+        
+      
         
         
    stage('UnitTest'){
