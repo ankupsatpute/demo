@@ -15,16 +15,7 @@ pipeline{
             }
         }
         
-        stage('PR Request'){
-            when{
-                branch "PR-*"
-            }
-            stesp{
-                sh """
-                echo "Pull Request Succesfully Done"
-                """
-            }
-        }
+       
         
        stage('Git CheckOut'){
             steps{
@@ -33,7 +24,16 @@ pipeline{
                }
             }
         
-           
+      stage('PR Request'){
+            when{
+                branch "PR-*"
+            }
+            steps{
+                sh """
+                echo "Pull Request Succesfully Done"
+                """
+            }
+        }
         
    stage('UnitTest'){
           steps{
