@@ -3,13 +3,6 @@ pipeline{
     agent any
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH"
-    deploy = '172.31.7.56'
-     //-------------------Nexus Details-----------------//
-        def CRDID = 'nexus'
-        def NXURL = '15.206.82.196:8081'
-        def NXVRN = 'nexus3'
-        def PROTO = 'http'
-        def REPO  = 'sample'
      }
     
     stages{
@@ -39,7 +32,8 @@ pipeline{
             echo "PULL REQUEST CHECK IS DONE HERE"
             '''
             }
-
+        }
+        
    stage('UnitTest'){
           steps{
               script{
