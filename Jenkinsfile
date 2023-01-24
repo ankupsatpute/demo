@@ -29,15 +29,19 @@ pipeline{
                }
             }
        
-        stage('Merge With Git Branch With Jenkins'){
-            when {
-                branch "PR-*"
+        stage (' PR check ') {
+        when {
+                branch 'PR-*'  
             }
-            steps{
-             checkout scmGit(branches: [[name: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*']], 
-             extensions: [], userRemoteConfigs: [[url: 'https://github.com/ankupsatpute/demo.git']])           
-               }
+
+            steps {
+            sh '''
+            echo "PULL REQUEST CHECK IS DONE HERE"
+            '''
+
             }
+
+        }
                 
                 
     stage('UnitTest'){
