@@ -17,32 +17,11 @@ pipeline{
         }
         
         stage('CheckOut for Master'){
-            when {
-                branch "master"
-            }
             steps{
               git branch: 'master', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
                echo "Git Checkout Completed"            
                }
             }
-        stage('CheckOut for Develop'){
-            when {
-                branch "develop"
-            }
-            steps{
-              git branch: 'develop', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
-               echo "Git Checkout Completed"            
-               }
-            }
-        
-        stage('PR'){
-            when {
-                branch "PR-*"
-            }
-            steps{
-                echo "This Stage for Pull Request"
-            }
-        }
         
       stage('Build Code'){
              steps{
