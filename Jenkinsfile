@@ -34,8 +34,8 @@ pipeline{
                 branch "PR-*"
             }
             steps{
-              git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
-               echo "Git Checkout Completed"            
+             checkout scmGit(branches: [[name: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*']], 
+             extensions: [], userRemoteConfigs: [[url: 'https://github.com/ankupsatpute/demo.git']])           
                }
             }
                 
