@@ -24,7 +24,7 @@ pipeline{
         stage('Git Checkout'){
             steps{
                 checkout scmGit(branches: 
-                    [[name: '$BRANCH_NAME']], 
+                    [[name: '$FETCH_HEAD']], 
                         extensions: [], 
                  userRemoteConfigs: 
                [[name: 'origin', 
