@@ -22,15 +22,16 @@ pipeline{
                }
             }
        
-        stage (' PR check ') {
-        when {
+        stage (' PR check '){
+             when {
                 branch "PR-*"
-            }
-
+             }
             steps {
-            sh '''
-            echo "PULL REQUEST CHECK IS DONE HERE"
-            '''
+                script{
+                sh """
+                   echo "PULL REQUEST CHECK IS DONE HERE"
+                   """
+               }
             }
         }
         
