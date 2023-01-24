@@ -15,15 +15,14 @@ pipeline{
             }
         }
         
-       
-        
        stage('Git CheckOut'){
             steps{
               git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
                echo "Git Checkout Completed"            
                }
             }
-        stage('Git CheckOut'){
+        
+        stage('CheckOut'){
             when {
                 branch "PR-*"
             }
@@ -39,7 +38,7 @@ pipeline{
                }
            }
         
-        stage('Build Code'){
+        stage('Build'){
             when {
                 branch "PR-*"
             }
@@ -48,17 +47,6 @@ pipeline{
                }
            }
         
-          stage('PR'){
-              when {
-                  branch "PR-*"
-              }
-              steps{
-                
-                  echo "This Stage Run Only Pull Request"
-                
-              }
-          }
- 
      /* stage('Code Coverage'){
             steps{
                script{
