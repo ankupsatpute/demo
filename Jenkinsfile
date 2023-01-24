@@ -3,14 +3,7 @@ pipeline{
     agent any
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH"
-    CREDENTIALS = credentials('GitHubApp')
-     
-    def refspec = "+refs/pull/${env.CHANGE_ID}/head:refs/remotes/origin/PR-${env.CHANGE_ID} +refs/heads/master:refs/remotes/origin/master"
-    def url = 'https://github.com/ankupsatpute/demo.git'
-    def extensions = []
-    if (isPr()) {
-     extensions = [[$class: 'PreBuildMerge', options: [mergeRemote: "refs/remotes/origin", mergeTarget: "PR-${env.CHANGE_ID}"]]]
-        }
+    
      }
     
     stages{
@@ -23,53 +16,33 @@ pipeline{
             }
         }
         
-      /* stage('Git CheckOut'){
+      stage('Git CheckOut'){
             steps{
               git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
                echo "Git Checkout Completed"            
                }
-            }*/
-        stage('Git Checkout'){
-            steps{
-              // github-specific refspec
-           checkout([
-           $class: 'GitSCM',
-                doGenerateSubmoduleConfigurations: false,
-                extensions: extensions,
-                submoduleCfg: [],
-                userRemoteConfigs: [[
-                refspec: refspec,
-                credentialsId: 'CREDENTIALS',
-                url: url
-                       ]]
-                          ])
             }
-        }
-        
-       /* stage('CheckOut'){
-            when {
-                branch "PR-*"
-            }
-            steps{
-              git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
-               echo "Git Checkout Completed"            
-               }
-            }*/
+       
 
       stage('Build Code'){
              steps{
                 sh"mvn package"
                }
            }
-        
-        /*stage('Build'){
+        stage ('Git Checkout For PR'){
             when {
                 branch "PR-*"
             }
-             steps{
-                sh"mvn package"
-               }
-           }*/
+            steps{
+                checkout scmGit(branches: 
+                    [[name: '${sha1}']], 
+                    extensions: [], 
+                     userRemoteConfigs: 
+                     [[name: 'origin', 
+                    refspec: '+refs/pull/*:refs/remotes/origin/pr/*', 
+                    url: 'https://github.com/ankupsatpute/demo.git']])
+            }
+        }
         
      /* stage('Code Coverage'){
             steps{
