@@ -16,12 +16,23 @@ pipeline{
             }
         }
         
-        stage('Git CheckOut'){
+        /*stage('Git CheckOut'){
             steps{
               git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
                echo "Git Checkout Completed"            
                }
+            }*/
+        stage('Checkout'){
+            steps{
+                checkout scmGit(branches: 
+                [[name: '${ghprbActualCommit}']], 
+                       extensions: [], 
+                      userRemoteConfigs: 
+                    [[credentialsId: 'Git_Ankush', 
+                refspec: '+refs/pull/*:refs/remotes/origin/pr/*', 
+                    url: 'https://github.com/ankupsatpute/demo.git']])
             }
+        }
         
       stage('Build Code'){
              steps{
