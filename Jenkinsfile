@@ -4,9 +4,7 @@ pipeline{
     environment {
     PATH = "/opt/apache-maven-3.8.7/bin:$PATH"
     CREDENTIALS = credentials('GitHubApp')
-     def isPr() {
-      env.CHANGE_ID != null
-       }
+     
     def refspec = "+refs/pull/${env.CHANGE_ID}/head:refs/remotes/origin/PR-${env.CHANGE_ID} +refs/heads/master:refs/remotes/origin/master"
     def url = 'https://github.com/ankupsatpute/demo.git'
     def extensions = []
@@ -123,3 +121,6 @@ pipeline{
 
     }
 }
+def isPr() {
+      env.CHANGE_ID != null
+       }
