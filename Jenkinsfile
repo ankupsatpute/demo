@@ -28,28 +28,35 @@ pipeline{
         
    stage('UnitTest'){
           steps{
-              script{
-                  unitTest.unittest()
-                   }
+              sh "mvn test"
                }
             }
 
       stage('Build Code'){
              steps{
-                script{
-                  buildCode.buildCode()
-                     }
-                  }
+                sh"mvn package"
                }
+           }
+        
+          stage('PR'){
+              when {
+                  branch "PR-*"
+              }
+              steps{
+                
+                  echo "This Stage Run Only Pull Request"
+                
+              }
+          }
  
-      stage('Code Coverage'){
+     /* stage('Code Coverage'){
             steps{
                script{
               // codeCoverage.codeCoverage()
                jacoco()
                   }
                 }
-             }
+             }*/
        /* stage('SonarQube'){
             steps{
                 script{
