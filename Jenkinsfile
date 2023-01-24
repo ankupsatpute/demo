@@ -24,11 +24,7 @@ pipeline{
             }*/
         stage('Git Checkout'){
             steps{
-               def isPr() {
-              env.CHANGE_ID != null
-                       }
-
-// github-specific refspec
+              // github-specific refspec
        def refspec = "+refs/pull/${env.CHANGE_ID}/head:refs/remotes/origin/PR-${env.CHANGE_ID} +refs/heads/master:refs/remotes/origin/master"
        def url = 'https://github.com/ankupsatpute/demo.git'
        def extensions = []
@@ -125,3 +121,6 @@ pipeline{
 
     }
 }
+ def isPr() {
+              env.CHANGE_ID != null
+                       }
