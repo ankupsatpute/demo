@@ -13,47 +13,26 @@ pipeline{
      }
     
     stages{
-      /*stage('GIT_Checkout') {
-        steps {
-          script{
-          checkout(
-                 [
-               $class: 'GitSCM',
-                   extensions: [
-                                 [
-                    $class: "PreBuildMerge",
-                         options: [
-                            mergeTarget: "master",
-                           fastForwardMode: "FF",
-                           mergeRemote: "origin",
-                           mergeStrategy: "RECURSIVE_THEIRS",
-                           userRemoteConfigs: [[url: 'https://github.com/ankupsatpute/demo.git']]
-                                  ],
-                               ],
-                            ],
-                         ]
-                     )
-                }
-             }   
-          }*/
-   /* stage('Git Checkout'){
-        steps{
-             checkout scmGit(branches: 
-             [[name: "$BRANCH_NAME"]], 
-            extensions: 
-                 [[$class: 'PreBuildMerge', 
-                  options: [
-                   mergeRemote: 'origin',
-                   fastForwardMode: "NO_FF",
-                   mergeStrategy: "RECURSIVE_THEIRS",
-                   mergeTarget: 'master']]], 
-                   userRemoteConfigs: 
-                    [[name: 'origin', 
-                   refspec: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', 
-                   url: 'https://github.com/ankupsatpute/demo.git']])
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+                sh """
+                echo "Cleaned Up Workspace For Project"
+                """
+            }
         }
-    }*/
-        stage('Git Checkout'){
+        
+       stage('Git CheckOut'){
+            steps{
+              git branch: '$BRANCH_NAME', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
+               echo "Git Checkout Completed"            
+               }
+            }
+       
+        stage('Merge With Git Branch With Jenkins'){
+            when {
+                branch "PR-*"
+            }
             steps{
                 checkout scmGit(branches: 
                     [[name: '$BRANCH_NAME']], 
@@ -70,6 +49,8 @@ pipeline{
                     url: 'https://github.com/ankupsatpute/demo.git']])
             }
         }
+                
+                
     stage('UnitTest'){
           steps{
               script{
