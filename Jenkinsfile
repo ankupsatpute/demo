@@ -24,7 +24,14 @@ pipeline{
                }
             }
         
-     
+        stage('For PR'){
+            when{
+                branch "PR-*"
+            }
+            steps{
+                git branch: '+refs/pull-requests/${pullRequestId}/*:refs/remotes/origin/pr/${pullRequestId}/*', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
+            }
+        }
         
    stage('UnitTest'){
           steps{
