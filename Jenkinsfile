@@ -48,7 +48,7 @@ pipeline{
             steps{
                 script{
                echo "Git Checkout Started"
-               fetch.gitcheckout2()
+               fetchCode.gitcheckout2()
                echo "Git Checkout Completed"            
                }
             }
