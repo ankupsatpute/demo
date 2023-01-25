@@ -89,7 +89,7 @@ pipeline{
                }
             }
         }
-          stage('Build'){
+          stage('Build For PR'){
              when {
                  branch "PR-*"
              }
