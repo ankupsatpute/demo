@@ -26,43 +26,22 @@ pipeline{
                }
             }
         }
-       /* stage('CheckOut for Master'){
-            when {
-                branch "master"
+       
+        stage('SonarQube Analysis'){
+            when{
+                branch "develop"
             }
             steps{
-                script{
-               echo "Git Checkout Started"
-                fetchCode.gitcheckout()
-               echo "Git Checkout Completed"            
+                withSonarQubeEnv('sonarqube-8.9.10.61524'){
+                   script{
+                       sonarQube.sonarAnalysis('demo','http://13.233.59.8:9000','566a9d4681874a18cef3fc46d3acae56fc252441')
+                   }
                }
             }
         }
         
-          stage('CheckOut for develop'){
-            when {
-                branch "develop"
-            }
-            steps{
-                script{
-                echo "Git Checkout Started"
-                fetchCode.gitcheckout1()
-               echo "Git Checkout Completed"            
-               }
-            }
-          }
-        stage('CheckOut for Feature'){
-            when {
-                branch "feature"
-            }
-            steps{
-                script{
-               echo "Git Checkout Started"
-               fetchCode.gitcheckout2()
-               echo "Git Checkout Completed"            
-               }
-            }
-        }
+          
+        
         stage('CheckOut for PR'){
             when {
                 branch "PR-*"
@@ -74,14 +53,8 @@ pipeline{
                echo "Git Checkout Completed"            
                }
             }
-        }*/
-         stage('Build Code'){
-             steps{
-                 script{
-                     buildCode.buildCode()
-                 }
-               }
-           }
+        }
+         
      
     }
 }
