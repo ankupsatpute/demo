@@ -21,43 +21,50 @@ pipeline{
                 branch "master"
             }
             steps{
+                script{
                echo "Git Checkout Started"
                 fetch.gitcheckout()
                echo "Git Checkout Completed"            
                }
             }
+        }
         
           stage('CheckOut for develop'){
             when {
                 branch "develop"
             }
             steps{
-               echo "Git Checkout Started"
+                script{
+                echo "Git Checkout Started"
                 fetch.gitcheckout1()
                echo "Git Checkout Completed"            
                }
             }
+          }
         stage('CheckOut for Feature'){
             when {
                 branch "feature"
             }
             steps{
+                script{
                echo "Git Checkout Started"
-                fetch.gitcheckout2()
+               fetch.gitcheckout2()
                echo "Git Checkout Completed"            
                }
             }
-        
+        }
         stage('CheckOut for PR'){
             when {
                 branch "PR-*"
             }
             steps{
+               script{
                echo "Git Checkout Started"
-                fetch.gitcheckout2()
+               fetch.gitcheckout2()
                echo "Git Checkout Completed"            
                }
             }
+        }
          stage('Build Code'){
              steps{
                 sh"mvn package"
