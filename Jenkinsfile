@@ -36,10 +36,7 @@ pipeline{
         }
         
         stage('SonarQube Analysis'){
-            when{
-                branch "develop"
-            }
-            steps{
+             steps{
                 withSonarQubeEnv('sonarqube-8.9.10.61524'){
                   script{
                        sonarQube.sonarQube()
