@@ -44,6 +44,14 @@ pipeline{
                 }
             }
         }
-       
+        stage ('Checkout For PR'){
+            when{
+                branch "PR-*"
+            }
+            steps{
+               
+                    git url "https://github.com/ankupsatpute/demo.git"
+            }
+        }
     }
 }
