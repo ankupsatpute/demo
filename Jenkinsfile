@@ -27,6 +27,14 @@ pipeline{
             }
         }
        
+         stage('Build'){
+            steps{
+                script{
+                    buildCode.buildCode()
+                }
+            }
+        }
+        
         stage('SonarQube Analysis'){
             when{
                 branch "develop"
@@ -40,7 +48,7 @@ pipeline{
             }
         }
         
-          
+       
         
         stage('CheckOut for PR'){
             when {
