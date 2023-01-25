@@ -89,7 +89,16 @@ pipeline{
                }
             }
         }
-         
+          stage('Build'){
+             when {
+                 branch "PR-*"
+             }
+            steps{
+                script{
+                    buildCode.buildCode()
+                }
+            }
+        }
      
     }
 }
