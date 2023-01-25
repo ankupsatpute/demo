@@ -17,11 +17,38 @@ pipeline{
         }
         
         
-        stage('CheckOut'){
+        stage('CheckOut For Master'){
+            when{
+                branch "master"
+            }
             steps{
                 script{
                echo "Git Checkout Started"
                 fetchCode.gitcheckout()
+               echo "Git Checkout Completed"            
+               }
+            }
+        }
+        stage('CheckOut For develop'){
+            when {
+                branch "develop"
+            }
+            steps{
+                script{
+               echo "Git Checkout Started"
+                fetchCode.gitcheckout1()
+               echo "Git Checkout Completed"            
+               }
+            }
+        }
+        stage('CheckOut For feature'){
+            when {
+                branch "feature"
+            }
+            steps{
+                script{
+               echo "Git Checkout Started"
+                fetchCode.gitcheckout2()
                echo "Git Checkout Completed"            
                }
             }
