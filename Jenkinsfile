@@ -27,7 +27,7 @@ pipeline{
                }
             }
         
-          stage('CheckOut for Master'){
+          stage('CheckOut for develop'){
             when {
                 branch "develop"
             }
@@ -37,7 +37,7 @@ pipeline{
                echo "Git Checkout Completed"            
                }
             }
-        stage('CheckOut for Master'){
+        stage('CheckOut for Feature'){
             when {
                 branch "feature"
             }
@@ -48,7 +48,7 @@ pipeline{
                }
             }
         
-        stage('CheckOut for Master'){
+        stage('CheckOut for PR'){
             when {
                 branch "PR-*"
             }
