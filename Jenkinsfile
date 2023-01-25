@@ -17,18 +17,52 @@ pipeline{
         }
         
         stage('CheckOut for Master'){
+            when {
+                branch "master"
+            }
             steps{
-              git branch: 'master', changelog: false, poll: false, url: 'https://github.com/ankupsatpute/demo.git'
+               echo "Git Checkout Started"
+                fetch.gitcheckout()
                echo "Git Checkout Completed"            
                }
             }
         
-      stage('Build Code'){
+          stage('CheckOut for Master'){
+            when {
+                branch "develop"
+            }
+            steps{
+               echo "Git Checkout Started"
+                fetch.gitcheckout1()
+               echo "Git Checkout Completed"            
+               }
+            }
+        stage('CheckOut for Master'){
+            when {
+                branch "feature"
+            }
+            steps{
+               echo "Git Checkout Started"
+                fetch.gitcheckout2()
+               echo "Git Checkout Completed"            
+               }
+            }
+        
+        stage('CheckOut for Master'){
+            when {
+                branch "PR-*"
+            }
+            steps{
+               echo "Git Checkout Started"
+                fetch.gitcheckout2()
+               echo "Git Checkout Completed"            
+               }
+            }
+         stage('Build Code'){
              steps{
                 sh"mvn package"
                }
            }
-        
      
     }
 }
