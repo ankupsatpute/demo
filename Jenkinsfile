@@ -23,7 +23,7 @@ pipeline{
             steps{
                 script{
                echo "Git Checkout Started"
-                fetch.gitcheckout()
+                fetchCode.gitcheckout()
                echo "Git Checkout Completed"            
                }
             }
@@ -36,7 +36,7 @@ pipeline{
             steps{
                 script{
                 echo "Git Checkout Started"
-                fetch.gitcheckout1()
+                fetchCode.gitcheckout1()
                echo "Git Checkout Completed"            
                }
             }
@@ -60,14 +60,16 @@ pipeline{
             steps{
                script{
                echo "Git Checkout Started"
-               fetch.gitcheckout2()
+               fetchCode.gitcheckout2()
                echo "Git Checkout Completed"            
                }
             }
         }
          stage('Build Code'){
              steps{
-                sh"mvn package"
+                 script{
+                     buildCode.buildCode()
+                 }
                }
            }
      
