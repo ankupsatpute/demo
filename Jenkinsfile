@@ -74,31 +74,6 @@ pipeline{
                 }
             }
         }
-        
        
-        
-        stage('CheckOut for PR'){
-            when {
-                branch "PR-*"
-            }
-            steps{
-               script{
-               echo "Git Checkout Started"
-               fetchCode.gitcheckout2()
-               echo "Git Checkout Completed"            
-               }
-            }
-        }
-         stage('Build for PR'){
-             when {
-                 branch "PR-*"
-             }
-            steps{
-                script{
-                    buildCode.buildCode()
-                }
-            }
-        }
-     
     }
 }
