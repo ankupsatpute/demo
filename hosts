@@ -1,3 +1,2 @@
-[slave]
-172.31.1.21 ansible_user=ec2-user
+
 
